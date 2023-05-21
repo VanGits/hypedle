@@ -9,14 +9,22 @@ nav {
     color: white;
 }
 
+.nav-content h1{
+    font-weight: 700;
+    font-size: 32px;
+}
+
 .nav-content-wrapper{
     height: 100%;
     display: flex;
     align-items: center;
     justify-content:space-between;
-    max-width: 1700px;
+    max-width: 1600px;
     width: 100%;
+  
 }
+
+
 
 .logout-wrapper{
     display: flex;
@@ -27,6 +35,11 @@ nav {
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
+    transition: 300ms all ease;
+}
+
+.logout-wrapper:hover{
+    background-color: #5e5e5e;
 }
 
 .logout-btn{
@@ -35,4 +48,15 @@ nav {
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+.nav-content-2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.nav-content-2 p{
+    margin-right: 12px;
 }

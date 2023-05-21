@@ -9,7 +9,9 @@ const Nav = () => {
           <h1>Hypedle</h1>
         </div>
         <div className="nav-content-2">
+          <p>Welcome, Van</p>
           <div className="logout-wrapper">
+
             <BiLogOut className="logout-btn"/>
           </div>
         </div>
