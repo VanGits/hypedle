@@ -6,10 +6,11 @@ import Login from "./components/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Signup from "./components/Signup";
+import Main from "./components/Main";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
- 
+
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
@@ -25,20 +26,22 @@ function App() {
       <ToastContainer />
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<Login onLogin={setCurrentUser}/>} />
-        <Route path="/signup" element={<Signup onLogin={setCurrentUser}/>} />
+          <Route path="/" element={<Login onLogin={setCurrentUser} />} />
+          <Route path="/signup" element={<Signup onLogin={setCurrentUser} />} />
 
           {currentUser && (
             <Route
               path="/home"
               element={
-                <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
+                <>
+                  <Nav user={currentUser} setCurrentUser={setCurrentUser} />
+                  <Main />
+                </>
               }
             />
           )}
-         
         </Routes>
-        {currentUser && <Navigate to="/home"/>}
+        {currentUser && <Navigate to="/home" />}
       </BrowserRouter>
     </div>
   );
