@@ -1,7 +1,27 @@
 import React from "react";
 import "../styles/Nav.css";
 import { BiLogOut } from "react-icons/bi";
-const Nav = () => {
+import { useNavigate } from "react-router-dom";
+
+const Nav = ({user, setCurrentUser}) => {
+
+  const navigate = useNavigate()
+  function handleLogOut(e){
+   e.preventDefault()
+   fetch("/logout", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  
+  }).then((r) => {
+      if (r.ok){
+          setCurrentUser(null)
+          navigate("/login")
+          
+      } 
+  });
+  }
   return (
     <nav className="Nav">
       <div className="nav-content-wrapper">
@@ -9,10 +29,10 @@ const Nav = () => {
           <h1>Hypedle</h1>
         </div>
         <div className="nav-content-2">
-          <p>Welcome, Van</p>
-          <div className="logout-wrapper">
+          {user && <p>Welcome, {user.name}</p>}
+          <div className="logout-wrapper"onClick={handleLogOut}>
 
-            <BiLogOut className="logout-btn"/>
+            <BiLogOut className="logout-btn" />
           </div>
         </div>
       </div>
