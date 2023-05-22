@@ -12,13 +12,9 @@ class HighlightsController < ApplicationController
     end
   
     def create
-      highlight = Highlight.new(highlight_params)
-      if highlight.save
-        render json: highlight, status: :created
-      else
-        render json: { errors: highlight.errors.full_messages }, status: :unprocessable_entity
+       highlight = Highlight.create!(highlight_params)
+       render json: highlight, status: :created
       end
-    end
   
     def update
       highlight = find_highlight
@@ -27,11 +23,13 @@ class HighlightsController < ApplicationController
       
     end
   
-    def destroy
-      highlight = find_highlight
-      highlight.destroy
+    def destroyAll
+      
+      Highlight.destroy_all
       head :no_content
     end
+
+    
   
     private
   

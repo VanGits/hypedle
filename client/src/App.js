@@ -7,10 +7,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Signup from "./components/Signup";
 import Main from "./components/Main";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [isSidebarVisible, setSidebarVisible] = useState(false);
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
@@ -21,7 +22,7 @@ function App() {
     });
   }, []);
  
-
+  
   return (
     <div className="App">
       <ToastContainer />
@@ -35,14 +36,16 @@ function App() {
               path="/home"
               element={
                 <>
-                  <Nav user={currentUser} setCurrentUser={setCurrentUser} />
+                  <Nav user={currentUser} setCurrentUser={setCurrentUser} setSidebarVisible={setSidebarVisible} isSidebarVisible={isSidebarVisible} />
                   <Main />
+                  {isSidebarVisible && <Sidebar />}
                 </>
               }
             />
           )}
         </Routes>
         {currentUser && <Navigate to="/home" />}
+
       </BrowserRouter>
     </div>
   );

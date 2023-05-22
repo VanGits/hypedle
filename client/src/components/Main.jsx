@@ -11,29 +11,40 @@ const Main = () => {
       .then((data) => setHighlights(data));
   }, []);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+  
+    // Get day, month, and time components
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'short' });
+    const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+    // Format the date string
+    const formattedDate = `${day} ${month} at ${time}`;
+    return formattedDate;
+  };
+
   // Custom YouTube player options
   const youtubePlayerOptions = {
     playerVars: {
-        autoplay: 0, // Autoplay the video (0 or 1)
-        controls: 1, // Show video controls (0 or 1)
-        modestbranding: 1, // Hide YouTube logo (0 or 1)
-        showinfo: 1, // Hide video title and other info (0 or 1)
-        rel: 1, // Hide related videos at the end (0 or 1)
-        loop: 0, // Loop the video playback (0 or 1)
-        fs: 0,
-        playsinline: 0, // Play the video inline on mobile devices (0 or 1)
-       
+      autoplay: 0,
+      controls: 1,
+      modestbranding: 1,
+      showinfo: 1,
+      rel: 1,
+      loop: 0,
+      fs: 0,
+      playsinline: 0,
     },
   };
 
   return (
     <div className="Main">
-      {highlights.map((highlight) => (
+      {highlights && highlights.map((highlight) => (
         <div className="highlight" key={highlight.id}>
-          <p>{highlight.user.name}</p>
-          <h1>{highlight.title}</h1>
-          <h2>{highlight.description}</h2>
-          <h3>Game: {highlight.game.title}</h3>
+          <p>From: <span id='userName'> {highlight.user.name.toUpperCase()}</span></p>
+          <p id='date'>{formatDate(highlight.created_at)}</p>
+          <p>{highlight.title}</p>
           <div className="video-player">
             <ReactPlayer
               url={highlight.video_url}
@@ -46,6 +57,9 @@ const Main = () => {
               }}
             />
           </div>
+          
+          <p>Description: {highlight.description}</p>
+          <p>Game: {highlight.game.title}</p>
         </div>
       ))}
     </div>

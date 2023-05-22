@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
   delete "/logout", to: "sessions#destroy"
-  resources :highlights
+  resources :highlights, only: [:index, :show, :create, :update]
+  delete "/highlights", to: "highlights#destroyAll"
   resources :games, only: [:index]
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!
