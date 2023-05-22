@@ -1,32 +1,45 @@
 class HighlightsController < ApplicationController
-
-    wrap_parameters format:[]
-
+    wrap_parameters format: []
+  
     def index
-        highlights = Highlight.all
-        render json: highlights, status: :ok
+      highlights = Highlight.all
+      render json: highlights, status: :ok
     end
-
+  
     def show
-        
+      highlight = find_highlight
+      render json: highlight, status: :ok
     end
-
+  
     def create
-        highlight = Highlight.create(highlight_params)
+      highlight = Highlight.new(highlight_params)
+      if highlight.save
         render json: highlight, status: :created
+      else
+        render json: { errors: highlight.errors.full_messages }, status: :unprocessable_entity
+      end
     end
-
+  
     def update
-
+      highlight = find_highlight
+      highlight.update(highlight_params)
+        render json: highlight, status: :ok
+      
     end
-
-    def delete
-
+  
+    def destroy
+      highlight = find_highlight
+      highlight.destroy
+      head :no_content
     end
-
+  
     private
-
+  
     def highlight_params
-        params.permit(:title, :description, :video_url, :user_id, :game_id)
+      params.permit(:title, :description, :video_url, :user_id, :game_id)
     end
-end
+  
+    def find_highlight
+      Highlight.find(params[:id])
+    end
+  end
