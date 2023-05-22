@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
 import { useEffect, useState } from "react";
@@ -24,16 +24,18 @@ function App() {
       <ToastContainer />
       <BrowserRouter>
         <Routes>
+        <Route path="/" element={<Login onLogin={setCurrentUser} />} />
           {currentUser && (
             <Route
-              path="/"
+              path="/main"
               element={
                 <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
               }
             />
           )}
-          <Route path="/login" element={<Login onLogin={setCurrentUser} />} />
+         
         </Routes>
+        
       </BrowserRouter>
     </div>
   );

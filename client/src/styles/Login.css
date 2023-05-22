@@ -11,6 +11,7 @@
 
 .Login p{
     color: rgb(241, 92, 92);
+    margin-bottom: 24px;
 }
 
 .Login h1{
@@ -22,12 +23,15 @@
 .Login form input{
     margin-top: 24px;
     width: 400px;
-    border: none;
-    border-bottom: 1px solid black;
+    
     padding: 16px;
     font-size: 14px;
+
     
-    
+}
+
+.Login form input:focus{
+    outline: none;
 }
 
 .login-box{
@@ -39,6 +43,7 @@
     width: 600px;
     padding: 32px;
     background-color: white;
+    border-radius: 5px;
 }
 
 

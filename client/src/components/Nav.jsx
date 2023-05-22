@@ -17,7 +17,7 @@ const Nav = ({user, setCurrentUser}) => {
   }).then((r) => {
       if (r.ok){
           setCurrentUser(null)
-          navigate("/login")
+          navigate("/")
           
       } 
   });
