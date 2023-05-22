@@ -65,3 +65,12 @@
     font-weight: 600;
     
 }
+
+.login-box span{
+    margin-top: 32px;
+}
+
+.login-box span a{
+    text-decoration: underline;
+    cursor: pointer;
+}

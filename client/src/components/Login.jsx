@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "../styles/Login.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = ({ onLogin }) => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
 
@@ -14,9 +14,9 @@ const Login = ({ onLogin }) => {
     
     setName(e.target.value.toLowerCase());
   }
-  function handleEmailChange(e) {
-    setEmail(e.target.value.toLowerCase());
-  }
+  // function handleEmailChange(e) {
+  //   setEmail(e.target.value.toLowerCase());
+  // }
   function handlePasswordChange(e) {
     setPassword(e.target.value);
   }
@@ -28,7 +28,7 @@ const Login = ({ onLogin }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, password }),
     }).then((r) => {
       if (r.ok) {
         navigate("/home");
@@ -47,11 +47,12 @@ const Login = ({ onLogin }) => {
         <h1>Welcome!</h1>
         {errors && <p>{errors}</p>}
           <input type="text" onChange={handleNameChange} placeholder="Name" />
-          <input type="email" onChange={handleEmailChange}  placeholder="Email"/>
+          {/* <input type="email" onChange={handleEmailChange}  placeholder="Email"/> */}
           <input type="password" onChange={handlePasswordChange} placeholder="Password"/>
           <button>Login</button>
+          <span>New Here? <Link to="/signup"><a>Register</a></Link></span>
         </form>
-     
+    
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Login from "./components/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Signup from "./components/Signup";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -25,6 +26,8 @@ function App() {
       <BrowserRouter>
         <Routes>
         <Route path="/" element={<Login onLogin={setCurrentUser}/>} />
+        <Route path="/signup" element={<Signup onLogin={setCurrentUser}/>} />
+
           {currentUser && (
             <Route
               path="/home"
