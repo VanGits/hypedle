@@ -44,7 +44,7 @@ const Login = ({ onLogin }) => {
         
       
         <form onSubmit={handleSubmit} className="login-box">
-        <h1>Login</h1>
+        <h1>Welcome!</h1>
         {errors && <p>{errors}</p>}
           <input type="text" onChange={handleNameChange} placeholder="Name" />
           <input type="email" onChange={handleEmailChange}  placeholder="Email"/>

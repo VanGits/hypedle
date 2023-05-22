@@ -15,7 +15,7 @@
 }
 
 .Login h1{
-    color: black;
+    color: #242526;
     margin-bottom: 42px;
     font-size: 48px;
 }
@@ -26,12 +26,17 @@
     
     padding: 16px;
     font-size: 14px;
-
+    
+    
+    transition: border-color 0.3s ease-in-out;
+    border: 1px solid #ccc;
     
 }
 
 .Login form input:focus{
     outline: none;
+    border-color: #E08E6D;
+
 }
 
 .login-box{
@@ -42,20 +47,21 @@
     height: 800px;
     width: 600px;
     padding: 32px;
-    background-color: white;
+    background: url("../assets/login-box.svg");
     border-radius: 5px;
 }
 
 
 .login-box button{
     margin-top: 32px;
-    background-color:#242526 ;
+    background-color:#E08E6D ;
     border: none;
     color: white;
     padding: 24px;
-    width: 150px;
+    width: 200px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
+    
 }

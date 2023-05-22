@@ -29,7 +29,7 @@ const Nav = ({user, setCurrentUser}) => {
           <h1>Hypedle</h1>
         </div>
         <div className="nav-content-2">
-          {user && <p>Welcome, {user.name}</p>}
+          {user && <p>Welcome, {user.name.toUpperCase()}</p>}
           <div className="logout-wrapper"onClick={handleLogOut}>
 
             <BiLogOut className="logout-btn" />
