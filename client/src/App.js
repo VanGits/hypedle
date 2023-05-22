@@ -24,10 +24,10 @@ function App() {
       <ToastContainer />
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<Login onLogin={setCurrentUser} />} />
+        <Route path="/" element={<Login onLogin={setCurrentUser}/>} />
           {currentUser && (
             <Route
-              path="/main"
+              path="/home"
               element={
                 <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
               }
@@ -35,7 +35,7 @@ function App() {
           )}
          
         </Routes>
-        
+        {currentUser && <Navigate to="/home"/>}
       </BrowserRouter>
     </div>
   );
