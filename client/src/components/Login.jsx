@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import "../styles/Login.css";
 import { useNavigate } from "react-router-dom";
 
-
-const Login = ({onLogin}) => {
+const Login = ({ onLogin }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState("")
+  const [errors, setErrors] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function handleNameChange(e) {
-    setName(e.target.value);
+    
+    setName(e.target.value.toLowerCase());
   }
   function handleEmailChange(e) {
-    setEmail(e.target.value);
+    setEmail(e.target.value.toLowerCase());
   }
   function handlePasswordChange(e) {
     setPassword(e.target.value);
@@ -30,23 +30,28 @@ const Login = ({onLogin}) => {
       },
       body: JSON.stringify({ name, email, password }),
     }).then((r) => {
-        if (r.ok){
-            navigate("/")
-            r.json().then((user) => onLogin(user))
-        } else {
-            r.json().then((err) => setErrors(err.errors))
-        }
+      if (r.ok) {
+        navigate("/");
+        r.json().then((user) => onLogin(user));
+      } else {
+        r.json().then((err) => setErrors(err.errors));
+      }
     });
   }
   return (
     <div className="Login">
-      {errors && <p>{errors}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="text" onChange={handleNameChange} />
-        <input type="email" onChange={handleEmailChange} />
-        <input type="password" onChange={handlePasswordChange} />
-        <button>Login</button>
-      </form>
+      
+        
+      
+        <form onSubmit={handleSubmit} className="login-box">
+        <h1>Login</h1>
+        {errors && <p>{errors}</p>}
+          <input type="text" onChange={handleNameChange} placeholder="Name" />
+          <input type="email" onChange={handleEmailChange}  placeholder="Email"/>
+          <input type="password" onChange={handlePasswordChange} placeholder="Password"/>
+          <button>Login</button>
+        </form>
+     
     </div>
   );
 };
