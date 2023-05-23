@@ -6,7 +6,7 @@ import { IoMdCreate } from "react-icons/io";
 import { BiCategoryAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = ({ currentUser }) => {
+const Sidebar = ({ currentUser , setCurrentUser}) => {
   const [activeItem, setActiveItem] = useState("item1");
     const navigate = useNavigate()
   // Handle click event on sidebar items
@@ -16,10 +16,27 @@ const Sidebar = ({ currentUser }) => {
       setActiveItem(item);
     }
   };
+  function handleLogOut(e){
+   e.preventDefault()
+   fetch("/logout", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  
+  }).then((r) => {
+      if (r.ok){
+          setCurrentUser(null)
+          navigate("/")
+          
+      } 
+  });
+  }
   return (
     <div className="sidebar">
       <div className="profile">
-        {currentUser && <h2>Hello, {currentUser.name.toUpperCase()}</h2>}
+        {currentUser.image_url &&<img src={currentUser.image_url} alt="" />}
+        {currentUser && <><h2>Hello, {currentUser.name.toUpperCase()}</h2></>}
       </div>
       <div className={activeItem === 'item1' ? 'sidebar-element active' : 'sidebar-element'} onClick={() => handleItemClick("item1", "/home")}>
         <AiFillHome />
@@ -36,6 +53,9 @@ const Sidebar = ({ currentUser }) => {
       <div className={activeItem === 'item4' ? 'sidebar-element active' : 'sidebar-element'} onClick={() => handleItemClick("item4", "/game-categories")}>
         <BiCategoryAlt />
         <h2>Game Categories</h2>
+      </div>
+      <div className="logout-wrapper">
+      <button onClick={handleLogOut}>Logout</button>
       </div>
     </div>
   );

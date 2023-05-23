@@ -68,3 +68,34 @@
   color: #e08e6d;
   text-decoration: none;
 }
+
+.sidebar img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 16px;
+}
+
+.sidebar .logout-wrapper{
+    height: 100%;
+    width: 100%;
+    justify-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+
+.sidebar button{
+    background-color:#E08E6D ;
+    border: none;
+    color: white;
+    padding: 16px;
+    width: 200px ;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+}

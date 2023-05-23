@@ -10,7 +10,7 @@ const Main = ({ highlights, loading }) => {
       // Delay showing the skeleton for a short period
       const timeout = setTimeout(() => {
         setShowSkeleton(false);
-      }, 500);
+      }, 100);
 
       return () => clearTimeout(timeout);
     }
@@ -45,7 +45,7 @@ const Main = ({ highlights, loading }) => {
       playsinline: 0,
     },
   };
-  console.log(loading);
+
 
   return (
     <div className="Main">
@@ -58,6 +58,7 @@ const Main = ({ highlights, loading }) => {
               </div>
             ) : (
               <>
+              <img src={highlight.user.image_url} alt="" />
                 <p>
                   From:{" "}
                   <span id="userName">{highlight.user.name.toUpperCase()}</span>

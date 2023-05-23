@@ -6,6 +6,7 @@ const Signup = ({onLogin}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [image_url, setImageUrl] = useState("");
   const [errors, setErrors] = useState("");
   const navigate = useNavigate()
 
@@ -18,6 +19,9 @@ const Signup = ({onLogin}) => {
   function handlePasswordChange(e){
     setPassword(e.target.value.toLowerCase())
   }
+  function handleProfileChange(e){
+    setImageUrl(e.target.value)
+  }
 
   function handleSubmit(e){
     e.preventDefault();
@@ -26,7 +30,7 @@ const Signup = ({onLogin}) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, image_url, password }),
     }).then((r) => {
       if (r.ok) {
         navigate("/home");
@@ -45,6 +49,7 @@ const Signup = ({onLogin}) => {
         {errors && <p>{errors}</p>}
         <input type="text" placeholder="Name" onChange={handleNameChange}/>
         <input type="email" placeholder="Email" onChange={handleEmailChange}/>
+        <input type="text" placeholder="Profile URL" onChange={handleProfileChange}/>
         <input type="password" placeholder="Password" onChange={handlePasswordChange}/>
         <button>Signup</button>
         <span>

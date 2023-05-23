@@ -11,7 +11,7 @@ import Sidebar from "./components/Sidebar";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [highlights, setHighlights] = useState();
+  const [highlights, setHighlights] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("/me").then((res) => {
@@ -47,7 +47,7 @@ function App() {
               element={
                 <>
                   <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
-                  <Sidebar currentUser = {currentUser}/>
+                  <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
                   <Main highlights = {highlights} loading={loading}/>
                   
                 </>
@@ -57,10 +57,10 @@ function App() {
               path="/my-highlights"
               element={
                 <>
-                  <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
+                  <Nav user={currentUser}   />
                   
                  
-                  <Sidebar currentUser = {currentUser}/>
+                  <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
                 </>
               }
             />
@@ -68,10 +68,10 @@ function App() {
               path="/create-highlight"
               element={
                 <>
-                  <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
+                  <Nav user={currentUser}   />
                   
                  
-                  <Sidebar currentUser = {currentUser}/>
+                  <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
                 </>
               }
             />
@@ -79,10 +79,10 @@ function App() {
               path="/game-categories"
               element={
                 <>
-                  <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
+                  <Nav user={currentUser}   />
                   
                  
-                  <Sidebar currentUser = {currentUser}/>
+                  <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
                 </>
               }
             />
