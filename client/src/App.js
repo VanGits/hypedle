@@ -31,11 +31,11 @@ function App() {
   useEffect(() => {
     fetch('/highlights')
       .then((res) => res.json())
-      .then((highlightData) => setHighlights(highlightData));
-     
-  }, []);
-
-  useEffect(() => {
+      .then((highlightData) => {
+        setHighlights(highlightData);
+        setLoading(false);
+      });
+  
     if (currentUser) {
       fetch('/my-highlights')
         .then((res) => res.json())

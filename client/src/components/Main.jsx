@@ -65,7 +65,7 @@ const Main = ({ highlights, loading, setLoading }) => {
 
   const renderHighlights = () => (
     <>
-      {highlights.map((highlight) => (
+      {Array.isArray(highlights) && highlights.map((highlight) => (
         <div className="highlight" key={highlight.id}>
           <div className="highlight-post">
             {highlight.user.image_url && <img src={highlight.user.image_url} alt="" />}
