@@ -45,27 +45,24 @@
 }
 
 .skeleton-load {
-   
     width: 100%;
-    background-color: #f2f2f2; /* Grey background color */
-    height: 100%; /* Adjust the height according to your design */
-    border-radius: 4px; /* Adjust the border-radius according to your design */
-    margin-bottom: 10px; /* Adjust the margin-bottom according to your design */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-   
+    height: 100%;
+    background-color: #f2f2f2; 
+    border-radius: 4px; 
+    margin-bottom: 10px; 
+    position: relative;
+    overflow: hidden;
   }
   
   .skeleton-load::before {
     content: '';
     position: absolute;
     top: 0;
-   
+    left: -100%;
     width: 100%;
     height: 100%;
     background-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent); /* Shine gradient effect */
-    animation: skeleton-shine 1.5s infinite; 
+    animation: skeleton-shine 1.5s infinite;
   }
   
   @keyframes skeleton-shine {
@@ -132,3 +129,39 @@
 .highlight-post-details p{
     padding: 4px;
 }
+
+.skeleton-profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #f2f2f2; /* Grey background color */
+    margin-right: 10px;
+  }
+  
+  .skeleton-name {
+    width: 150px;
+    height: 20px;
+    background-color: #f2f2f2; /* Grey background color */
+    margin-bottom: 10px;
+  }
+  
+  .skeleton-video {
+    width: 100%;
+    height: 400px;
+    background-color: #f2f2f2; /* Grey background color */
+    margin-bottom: 10px;
+  }
+  
+  .skeleton-category {
+    width: 200px;
+    height: 20px;
+    background-color: #f2f2f2; /* Grey background color */
+    margin-bottom: 10px;
+  }
+  
+  .skeleton-description {
+    width: 100%;
+    height: 100px;
+    background-color: #f2f2f2; /* Grey background color */
+    margin-bottom: 10px;
+  }

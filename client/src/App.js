@@ -32,7 +32,7 @@ function App() {
     fetch('/highlights')
       .then((res) => res.json())
       .then((highlightData) => setHighlights(highlightData));
-      setLoading(false)
+     
   }, []);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function App() {
                 <>
                   <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <Main highlights = {highlights} loading={loading}/>
+                  <Main highlights = {highlights} loading={loading} setLoading={setLoading}/>
                   
                 </>
               }
