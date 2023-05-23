@@ -5,6 +5,11 @@ class HighlightsController < ApplicationController
       highlights = Highlight.all
       render json: highlights, status: :ok
     end
+
+    def userIndex
+        highlights = @user.highlights
+        render json: highlights, status: :ok
+      end
   
     def show
       highlight = find_highlight

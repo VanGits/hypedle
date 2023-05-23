@@ -9,10 +9,13 @@ import Signup from "./components/Signup";
 import Main from "./components/Main";
 import Sidebar from "./components/Sidebar";
 import CreateHighlight from "./components/CreateHighlight";
+import ShowHighlights from "./components/ShowHighlights";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [highlights, setHighlights] = useState([]);
+  const [userHighlights, setUserHighlights] = useState([]);
+
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("/me").then((res) => {
@@ -31,6 +34,19 @@ function App() {
       .then((highlightData) => setHighlights(highlightData));
       setLoading(false)
   }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      fetch('/my-highlights')
+        .then((res) => res.json())
+        .then((userHighlightData) => setUserHighlights(userHighlightData));
+    } else {
+      setUserHighlights([]);
+    }
+  }, [currentUser]);
+
+  
+ 
  
   console.log(currentUser)
   return (
@@ -59,9 +75,8 @@ function App() {
               element={
                 <>
                   <Nav user={currentUser}   />
-                  
-                 
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
+                  <ShowHighlights userHighlights = {userHighlights}/>
                 </>
               }
             />

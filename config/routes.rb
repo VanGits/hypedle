@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :highlights, only: [:index, :show, :create, :update]
   delete "/highlights", to: "highlights#destroyAll"
   delete "/games", to: "games#destroyAll"
+  get "/my-highlights", to: "highlights#userIndex"
   resources :games, only: [:index]
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!
