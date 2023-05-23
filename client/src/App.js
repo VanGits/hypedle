@@ -12,6 +12,7 @@ import Sidebar from "./components/Sidebar";
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [highlights, setHighlights] = useState();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
@@ -27,6 +28,7 @@ function App() {
     fetch('/highlights')
       .then((res) => res.json())
       .then((highlightData) => setHighlights(highlightData));
+      setLoading(false)
   }, []);
  
   console.log(currentUser)
@@ -45,9 +47,9 @@ function App() {
               element={
                 <>
                   <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
-                  
-                  <Main highlights = {highlights}/>
                   <Sidebar currentUser = {currentUser}/>
+                  <Main highlights = {highlights} loading={loading}/>
+                  
                 </>
               }
             />
@@ -62,7 +64,30 @@ function App() {
                 </>
               }
             />
+              <Route
+              path="/create-highlight"
+              element={
+                <>
+                  <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
+                  
+                 
+                  <Sidebar currentUser = {currentUser}/>
+                </>
+              }
+            />
+              <Route
+              path="/game-categories"
+              element={
+                <>
+                  <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
+                  
+                 
+                  <Sidebar currentUser = {currentUser}/>
+                </>
+              }
+            />
             </>
+            
           )}
         </Routes>
       

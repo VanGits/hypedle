@@ -11,8 +11,10 @@ const Sidebar = ({ currentUser }) => {
     const navigate = useNavigate()
   // Handle click event on sidebar items
   const handleItemClick = (item, path) => {
-    setActiveItem(item);
-    navigate(path)
+    if (activeItem !== item) {
+      navigate(path);
+      setActiveItem(item);
+    }
   };
   return (
     <div className="sidebar">
@@ -27,11 +29,11 @@ const Sidebar = ({ currentUser }) => {
         <BsCardChecklist />
         <h2>My Highlights</h2>
       </div>
-      <div className={activeItem === 'item3' ? 'sidebar-element active' : 'sidebar-element'} onClick={() => handleItemClick("item3")}>
+      <div className={activeItem === 'item3' ? 'sidebar-element active' : 'sidebar-element'} onClick={() => handleItemClick("item3", "/create-highlight")}>
         <IoMdCreate />
         <h2>Create Highlight</h2>
       </div>
-      <div className={activeItem === 'item4' ? 'sidebar-element active' : 'sidebar-element'} onClick={() => handleItemClick("item4")}>
+      <div className={activeItem === 'item4' ? 'sidebar-element active' : 'sidebar-element'} onClick={() => handleItemClick("item4", "/game-categories")}>
         <BiCategoryAlt />
         <h2>Game Categories</h2>
       </div>
