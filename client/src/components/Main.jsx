@@ -91,10 +91,12 @@ const Main = ({ highlights, loading, currentUser }) => {
             </div>
             <div className="highlight-reactions">
               <HiOutlineHeart className="highlight-reaction" />
+              <p>0 likes</p>
               <FaRegComment className="highlight-reaction" />
+              <p>No comments found</p>
             </div>
 
-            <p>Category: {highlight.game.title}</p>
+            <p className="category">{highlight.game.title}</p>
             {/* <p>Description: {highlight.description}</p> */}
             <form action="" className="comment-section">
                 <img src={currentUser.image_url} alt="" />
