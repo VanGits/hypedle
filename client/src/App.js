@@ -15,7 +15,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [highlights, setHighlights] = useState([]);
   const [userHighlights, setUserHighlights] = useState([]);
-
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("/me").then((res) => {
@@ -45,10 +44,16 @@ function App() {
     }
   }, [currentUser]);
 
+  const addHighlight = (newHighlight) => {
+    
+    setHighlights([newHighlight, ...highlights]);
+    
+    if (currentUser && newHighlight.user.id === currentUser.id) {
+      setUserHighlights([ newHighlight, ...userHighlights]);
+    }
+    
+  }
   
- 
- 
-  console.log(currentUser)
   return (
     <div className="App">
       <ToastContainer />
@@ -65,7 +70,7 @@ function App() {
                 <>
                   <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <Main highlights = {highlights} loading={loading} setLoading={setLoading}/>
+                  <Main highlights = {highlights} loading={loading} />
                   
                 </>
               }
@@ -86,7 +91,7 @@ function App() {
                 <>
                   <Nav user={currentUser}   />               
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <CreateHighlight/>
+                  <CreateHighlight addHighlight = {addHighlight}/>
                 </>
               }
             />

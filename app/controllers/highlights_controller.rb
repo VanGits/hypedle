@@ -7,7 +7,7 @@ class HighlightsController < ApplicationController
     end
 
     def userIndex
-        highlights = @user.highlights
+        highlights = @user.highlights.order(created_at: :desc)
         render json: highlights, status: :ok
       end
   

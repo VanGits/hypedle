@@ -1,6 +1,8 @@
 import React from "react";
 import "../styles/ShowHighlights.css";
 import ReactPlayer from "react-player";
+import sad from "../assets/sad.svg";
+
 const ShowHighlights = ({ userHighlights }) => {
   const youtubePlayerOptions = {
     playerVars: {
@@ -33,10 +35,9 @@ const ShowHighlights = ({ userHighlights }) => {
 
   return (
     <div className="ShowHighlights">
+      {userHighlights.length > 0 ? (
         <div className="grid-wrapper">
-      {userHighlights &&
-        userHighlights.map((highlight) => {
-          return (
+          {userHighlights.map((highlight) => (
             <div className="user-highlight-wrapper">
               <h1>{highlight.title}</h1>
               <p id="date">{formatDate(highlight.created_at)}</p>
@@ -53,9 +54,14 @@ const ShowHighlights = ({ userHighlights }) => {
                 />
               </div>
             </div>
-          );
-        })}
+          ))}
         </div>
+      ) : (
+        <div className="no-highlights">
+          <img src={sad} alt="No Highlights" />
+          <h3>No Highlights yet!</h3>
+        </div>
+      )}
     </div>
   );
 };

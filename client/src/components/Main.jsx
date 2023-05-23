@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "../styles/Main.css";
 
-const Main = ({ highlights, loading, setLoading }) => {
+const Main = ({ highlights, loading }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
 
   useEffect(() => {
     if (loading) {
-      // Delay showing the skeleton for a short period
+      
       const timeout = setTimeout(() => {
         setShowSkeleton(false);
-        setLoading(false)
+       
       }, 1000);
 
       return () => clearTimeout(timeout);

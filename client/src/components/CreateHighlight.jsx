@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../styles/CreateHighlight.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const CreateHighlight = () => {
+import { useNavigate } from "react-router-dom";
+const CreateHighlight = ({ addHighlight }) => {
   const [games, setGames] = useState([]);
   const [category, setCategory] = useState("")
   const [title, setTitle] = useState("")
   const [videoURL, setVideoURL] = useState("")
   const [description, setDescription] = useState("")
-  const [errors, setErrors] = useState("")
-  
+
+   const navigate = useNavigate()
   useEffect(() => {
     fetch("/games")
       .then((res) => res.json())
@@ -46,8 +47,12 @@ const CreateHighlight = () => {
       }).then((r) => {
         if (r.ok) {
           
-          r.json().then((data) => console.log(data));
+          r.json().then((newHighlight) => addHighlight(newHighlight));
+          setTitle("")
+          setVideoURL("")
+          setDescription("")
           alert("Submitted!")
+          navigate("/home")
         } else {
           r.json().then((err) => toast.error(err.errors[0]));
         }
@@ -62,6 +67,7 @@ const CreateHighlight = () => {
         <input type="text" placeholder="Title" onChange={handleTitle}/>
         <input type="text" placeholder="Video URL" onChange={handleVideoURL}/>
         <select onChange={handleCategory}>
+        <option value="">Pick a category</option>
           {games &&
             games.map((game) => (
               <option key={game.id} value={game.id}>
