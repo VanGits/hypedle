@@ -39,7 +39,7 @@ const ShowHighlights = ({ userHighlights }) => {
           return (
             <div className="user-highlight-wrapper">
               <h1>{highlight.title}</h1>
-              <p>{formatDate(highlight.created_at)}</p>
+              <p id="date">{formatDate(highlight.created_at)}</p>
               <div className="video-player">
                 <ReactPlayer
                   url={highlight.video_url}
