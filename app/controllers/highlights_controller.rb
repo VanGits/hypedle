@@ -2,7 +2,7 @@ class HighlightsController < ApplicationController
     wrap_parameters format: []
   
     def index
-      highlights = Highlight.all
+      highlights = Highlight.order(created_at: :desc)
       render json: highlights, status: :ok
     end
 

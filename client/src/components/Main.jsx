@@ -77,8 +77,9 @@ const Main = ({ highlights, loading }) => {
                     }}
                   />
                 </div>
-                <p>Description: {highlight.description}</p>
                 <p>Category: {highlight.game.title}</p>
+                <p>Description: {highlight.description}</p>
+                
               </>
             )}
           </div>
