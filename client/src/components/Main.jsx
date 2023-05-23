@@ -89,6 +89,7 @@ const Main = ({ highlights, loading, currentUser }) => {
                 }}
               />
             </div>
+            <p className="category">{highlight.game.title}</p>
             <div className="highlight-reactions">
               <HiOutlineHeart className="highlight-reaction" />
               <p>0 likes</p>
@@ -96,7 +97,7 @@ const Main = ({ highlights, loading, currentUser }) => {
               <p>No comments found</p>
             </div>
 
-            <p className="category">{highlight.game.title}</p>
+           
             {/* <p>Description: {highlight.description}</p> */}
             <form action="" className="comment-section">
                 {currentUser.image_url &&<img src={currentUser.image_url} alt="" />}
