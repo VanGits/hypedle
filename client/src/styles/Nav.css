@@ -8,11 +8,13 @@ nav {
     background-color: white;
     color: #3e3f3f;
     z-index: 100;
+    position: fixed;
 }
 
 .nav-content h1{
-    font-weight: 700;
+    font-weight: 500;
     font-size: 32px;
+    color: #E08E6D;
 }
 
 .nav-content-wrapper{
@@ -20,7 +22,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content:space-between;
-    max-width: 1300px;
+    max-width: 1600px;
     width: 100%;
   
 }

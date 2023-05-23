@@ -2,14 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import '../styles/Main.css';
 
-const Main = () => {
-  const [highlights, setHighlights] = useState([]);
+const Main = ({highlights}) => {
 
-  useEffect(() => {
-    fetch('/highlights')
-      .then((res) => res.json())
-      .then((data) => setHighlights(data));
-  }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -40,6 +34,7 @@ const Main = () => {
 
   return (
     <div className="Main">
+        
       {highlights && highlights.map((highlight) => (
         <div className="highlight" key={highlight.id}>
           <p>From: <span id='userName'> {highlight.user.name.toUpperCase()}</span></p>
@@ -59,7 +54,7 @@ const Main = () => {
           </div>
           
           <p>Description: {highlight.description}</p>
-          <p>Game: {highlight.game.title}</p>
+          <p>Category: {highlight.game.title}</p>
         </div>
       ))}
     </div>

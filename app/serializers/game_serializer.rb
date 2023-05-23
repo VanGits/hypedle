@@ -1,4 +1,4 @@
 class GameSerializer < ActiveModel::Serializer
   has_many :highlights
-  attributes :id, :title, :description
+  attributes :id, :title
 end

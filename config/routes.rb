@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
   resources :highlights, only: [:index, :show, :create, :update]
   delete "/highlights", to: "highlights#destroyAll"
+  delete "/games", to: "games#destroyAll"
   resources :games, only: [:index]
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

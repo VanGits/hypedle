@@ -11,7 +11,7 @@ import Sidebar from "./components/Sidebar";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [isSidebarVisible, setSidebarVisible] = useState(true);
+  const [highlights, setHighlights] = useState();
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
@@ -21,8 +21,15 @@ function App() {
       }
     });
   }, []);
- 
   
+
+  useEffect(() => {
+    fetch('/highlights')
+      .then((res) => res.json())
+      .then((highlightData) => setHighlights(highlightData));
+  }, []);
+ 
+  console.log(currentUser)
   return (
     <div className="App">
       <ToastContainer />
@@ -36,9 +43,10 @@ function App() {
               path="/home"
               element={
                 <>
-                  <Nav user={currentUser} setCurrentUser={setCurrentUser} setSidebarVisible={setSidebarVisible} isSidebarVisible={isSidebarVisible} />
-                  <Main />
-                  {isSidebarVisible && <Sidebar />}
+                  <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
+                  
+                  <Main highlights = {highlights}/>
+                  <Sidebar currentUser = {currentUser}/>
                 </>
               }
             />
