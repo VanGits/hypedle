@@ -39,6 +39,7 @@ function App() {
           <Route path="/signup" element={<Signup onLogin={setCurrentUser} />} />
 
           {currentUser && (
+            <>
             <Route
               path="/home"
               element={
@@ -50,9 +51,21 @@ function App() {
                 </>
               }
             />
+            <Route
+              path="/my-highlights"
+              element={
+                <>
+                  <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
+                  
+                 
+                  <Sidebar currentUser = {currentUser}/>
+                </>
+              }
+            />
+            </>
           )}
         </Routes>
-        {currentUser && <Navigate to="/home" />}
+      
 
       </BrowserRouter>
     </div>

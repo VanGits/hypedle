@@ -20,9 +20,9 @@
     
     
     padding: 24px;
-    box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.05);
     color: #1e1e20;
-    margin-top: 64px;
+    margin-top: 82px;
     border-radius: 24px;
     background-color: white;
 }
