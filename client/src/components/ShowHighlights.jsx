@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/ShowHighlights.css";
 import ReactPlayer from "react-player";
 import sad from "../assets/sad.svg";
+import { MdModeEdit } from "react-icons/md";
 
 const ShowHighlights = ({ userHighlights }) => {
   const youtubePlayerOptions = {
@@ -37,8 +38,10 @@ const ShowHighlights = ({ userHighlights }) => {
     <div className="ShowHighlights">
       {userHighlights.length > 0 ? (
         <div className="grid-wrapper">
+
           {userHighlights.map((highlight) => (
             <div className="user-highlight-wrapper">
+              <MdModeEdit className="edit-btn"/>
               <h1>{highlight.title}</h1>
               <p id="date">{formatDate(highlight.created_at)}</p>
               <div className="video-player">
@@ -53,6 +56,9 @@ const ShowHighlights = ({ userHighlights }) => {
                   }}
                 />
               </div>
+              <p>{highlight.game.title}</p>
+              <p>{highlight.description}</p>
+             
             </div>
           ))}
         </div>

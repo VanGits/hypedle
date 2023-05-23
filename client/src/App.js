@@ -70,7 +70,7 @@ function App() {
                 <>
                   <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <Main highlights = {highlights} loading={loading} />
+                  <Main highlights = {highlights} loading={loading} currentUser={currentUser} />
                   
                 </>
               }
