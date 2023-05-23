@@ -99,7 +99,7 @@ const Main = ({ highlights, loading, currentUser }) => {
             <p className="category">{highlight.game.title}</p>
             {/* <p>Description: {highlight.description}</p> */}
             <form action="" className="comment-section">
-                <img src={currentUser.image_url} alt="" />
+                {currentUser.image_url &&<img src={currentUser.image_url} alt="" />}
               <input type="text" placeholder="Write your comment..."/>
             </form>
           </div>

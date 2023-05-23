@@ -57,3 +57,8 @@ nav {
 .nav-content-2 p{
     margin-right: 12px;
 }
+
+#noti{
+    justify-self: flex-end !important;
+    color: #E08E6D;
+}

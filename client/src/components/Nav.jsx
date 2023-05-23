@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/Nav.css";
+import { IoIosNotifications } from "react-icons/io";
 
 
 const Nav = () => {
@@ -10,9 +11,10 @@ const Nav = () => {
       <div className="nav-content-wrapper">
         <div className="nav-content">
         
-          <h1>Hypedle</h1>
+          <h1>HiLites</h1>
+          
         </div>
-       
+        <IoIosNotifications id="noti"/>
       </div>
     </nav>
   );
