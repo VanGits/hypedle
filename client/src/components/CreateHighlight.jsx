@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/CreateHighlight.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const CreateHighlight = () => {
   const [games, setGames] = useState([]);
   const [category, setCategory] = useState("")
@@ -47,13 +49,15 @@ const CreateHighlight = () => {
           r.json().then((data) => console.log(data));
           alert("Submitted!")
         } else {
-          r.json().then((err) => console.log(err.errors));
+          r.json().then((err) => toast.error(err.errors[0]));
         }
       });
   }
   
   return (
     <div className="CreateHighlight">
+     
+        
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Title" onChange={handleTitle}/>
         <input type="text" placeholder="Video URL" onChange={handleVideoURL}/>
