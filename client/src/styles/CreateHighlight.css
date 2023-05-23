@@ -1,0 +1,76 @@
+.CreateHighlight{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+
+}
+
+.CreateHighlight form{
+    width: 800px;
+    height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 24px
+
+}
+.CreateHighlight form input, .CreateHighlight form textarea{
+    background-color: #e6e6e6;
+    width: 600px;
+    padding: 24px;
+    margin-top: 48px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    
+}
+
+.CreateHighlight form input:focus, .CreateHighlight form textarea:focus{
+    outline: none;
+}
+.CreateHighlight form textarea{
+    height: 300px;
+}
+
+.CreateHighlight button{
+    margin-top: 32px;
+    cursor: pointer;
+    background-color:#E08E6D ;
+    border: none;
+    color: white;
+    padding: 16px;
+    width: 200px ;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+textarea{
+    resize: none;
+}
+
+.CreateHighlight select{
+    margin-top: 32px;
+    width: 600px;
+    padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  
+  height: 36px;
+    
+}
+
+.CreateHighlight select:focus{
+    outline: none;
+}

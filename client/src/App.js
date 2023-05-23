@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Signup from "./components/Signup";
 import Main from "./components/Main";
 import Sidebar from "./components/Sidebar";
+import CreateHighlight from "./components/CreateHighlight";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -68,10 +69,9 @@ function App() {
               path="/create-highlight"
               element={
                 <>
-                  <Nav user={currentUser}   />
-                  
-                 
+                  <Nav user={currentUser}   />               
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
+                  <CreateHighlight/>
                 </>
               }
             />

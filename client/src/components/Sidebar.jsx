@@ -7,7 +7,7 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ currentUser , setCurrentUser}) => {
-  const [activeItem, setActiveItem] = useState("item1");
+  const [activeItem, setActiveItem] = useState("");
     const navigate = useNavigate()
   // Handle click event on sidebar items
   const handleItemClick = (item, path) => {

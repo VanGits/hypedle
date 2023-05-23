@@ -12,7 +12,7 @@ class HighlightsController < ApplicationController
     end
   
     def create
-       highlight = Highlight.create!(highlight_params)
+       highlight = @user.highlights.create!(highlight_params)
        render json: highlight, status: :created
       end
   

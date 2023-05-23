@@ -46,7 +46,6 @@ const Main = ({ highlights, loading }) => {
     },
   };
 
-
   return (
     <div className="Main">
       {highlights &&
@@ -58,12 +57,13 @@ const Main = ({ highlights, loading }) => {
               </div>
             ) : (
               <>
-              <img src={highlight.user.image_url} alt="" />
-                <p>
-                  From:{" "}
-                  <span id="userName">{highlight.user.name.toUpperCase()}</span>
-                </p>
-                <p id="date">{formatDate(highlight.created_at)}</p>
+                <div className="highlight-post">
+                  {highlight.user.image_url &&<img src={highlight.user.image_url} alt="" />}
+                  <div className="highlight-post-details">
+                    <p id="userName">{highlight.user.name.toUpperCase()}</p>
+                    <p id="date">{formatDate(highlight.created_at)}</p>
+                  </div>
+                </div>
                 <p>{highlight.title}</p>
                 <div className="video-player">
                   <ReactPlayer
