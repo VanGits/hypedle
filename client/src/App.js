@@ -82,6 +82,40 @@ function App() {
       setUserHighlights(updatedUserHighlights);
     }
   }
+
+  const deleteHighlight = (deletedHighlight) => {
+    fetch(`/highlights/${deletedHighlight.id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (res.ok) {
+          // Remove the deleted highlight from the highlights state
+          if (highlights && highlights.length > 0) {
+            // Remove the deleted highlight from the highlights state
+            const updatedHighlights = highlights.filter(
+              (highlight) => highlight.id !== deletedHighlight.id
+            );
+            setHighlights(updatedHighlights);
+          }
+        
+          if (currentUser && userHighlights && userHighlights.length > 0) {
+            // Remove the deleted highlight from the userHighlights state
+            const updatedUserHighlights = userHighlights.filter(
+              (highlight) => highlight.id !== deletedHighlight.id
+            );
+            setUserHighlights(updatedUserHighlights);
+          }
+  
+          toast.success("Highlight deleted!");
+        } else {
+          res.json().then((err) => toast.error(err.errors[0]));
+        }
+      })
+      .catch((error) => {
+        // Handle the error
+        console.log(error);
+      });
+  };
   
   return (
     <div className="App">
@@ -110,7 +144,7 @@ function App() {
                 <>
                   <Nav user={currentUser}   />
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <ShowHighlights userHighlights = {userHighlights} games = {games} updateHighlight={updateHighlight}/>
+                  <ShowHighlights userHighlights = {userHighlights} games = {games} updateHighlight={updateHighlight} deleteHighlight={deleteHighlight}/>
                 </>
               }
             />

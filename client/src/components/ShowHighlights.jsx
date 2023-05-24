@@ -5,7 +5,7 @@ import sad from "../assets/sad.svg";
 import { MdModeEdit } from "react-icons/md";
 import {toast } from "react-toastify";
 
-const ShowHighlights = ({ userHighlights, games, updateHighlight }) => {
+const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighlight }) => {
   const youtubePlayerOptions = {
     playerVars: {
       autoplay: 0,
@@ -84,6 +84,7 @@ const ShowHighlights = ({ userHighlights, games, updateHighlight }) => {
 
   const handleSave = (e, highlightId) => {
     e.preventDefault();
+    console.log(highlightId)
     const editedHighlight = editedHighlights[highlightId];
 
     setIsEdit(false);
@@ -104,6 +105,13 @@ const ShowHighlights = ({ userHighlights, games, updateHighlight }) => {
         r.json().then((err) => toast.error(err.errors[0]));
       }
     });
+  };
+
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    setIsEdit(false);
+  
+    deleteHighlight({ id });
   };
 
   return (
@@ -129,7 +137,7 @@ const ShowHighlights = ({ userHighlights, games, updateHighlight }) => {
                   ) : (
                     <button onClick={handleEditInputs}>Edit</button>
                   )}
-                  <button>Delete</button>
+                  <button onClick={(e) => handleDelete(e, highlight.id)}>Delete</button>
                 </div>
               )}
               {editId === highlight.id && isEdit ? (

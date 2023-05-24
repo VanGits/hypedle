@@ -8,4 +8,5 @@ class Highlight < ApplicationRecord
     validates :video_url, presence: true, format: { with: /\Ahttps?:\/\/\S+\z/ }
     validates :user_id, presence: true
     validates :game_id, presence: true
+   
 end

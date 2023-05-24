@@ -27,12 +27,13 @@ class HighlightsController < ApplicationController
         render json: highlight, status: :ok
       
     end
-  
-    def destroyAll
-      
-      Highlight.destroy_all
+
+    def destroy 
+      highlight = find_highlight
+      highlight.delete
       head :no_content
     end
+
 
     
   
