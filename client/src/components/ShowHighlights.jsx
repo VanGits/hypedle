@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/ShowHighlights.css";
 import ReactPlayer from "react-player";
 import sad from "../assets/sad.svg";
@@ -34,14 +34,52 @@ const ShowHighlights = ({ userHighlights }) => {
     return formattedDate;
   };
 
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const editBtnsRef = useRef(null);
+
+  const handleEdit = (id) => {
+    setEditId(id);
+    setIsEdit(!isEdit);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        editBtnsRef.current &&
+        !editBtnsRef.current.contains(event.target)
+      ) {
+        setIsEdit(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  console.log(isEdit, editId);
+
   return (
     <div className="ShowHighlights">
       {userHighlights.length > 0 ? (
         <div className="grid-wrapper">
-
           {userHighlights.map((highlight) => (
-            <div className="user-highlight-wrapper">
-              <MdModeEdit className="edit-btn"/>
+            <div className="user-highlight-wrapper" key={highlight.id}>
+              <MdModeEdit
+                className="edit-btn"
+                onClick={() => handleEdit(highlight.id)}
+              />
+              {highlight.id === editId && isEdit ? (
+                <div className="edit-btns" ref={editBtnsRef}>
+                  <button>Edit</button>
+                  <button>Delete</button>
+                </div>
+              ) : (
+                console.log("not editing")
+              )}
               <h1>{highlight.title}</h1>
               <p id="date">{formatDate(highlight.created_at)}</p>
               <div className="video-player">
@@ -58,7 +96,6 @@ const ShowHighlights = ({ userHighlights }) => {
               </div>
               <p>{highlight.game.title}</p>
               <p>{highlight.description}</p>
-             
             </div>
           ))}
         </div>
