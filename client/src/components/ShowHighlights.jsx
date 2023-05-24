@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/ShowHighlights.css";
 import ReactPlayer from "react-player";
 import sad from "../assets/sad.svg";
 import { MdModeEdit } from "react-icons/md";
+import {toast } from "react-toastify";
 
-const ShowHighlights = ({ userHighlights }) => {
+const ShowHighlights = ({ userHighlights, games, updateHighlight }) => {
   const youtubePlayerOptions = {
     playerVars: {
       autoplay: 0,
@@ -20,8 +21,6 @@ const ShowHighlights = ({ userHighlights }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-
-    // Get day, month, and time components
     const day = date.getDate();
     const month = date.toLocaleString("default", { month: "short" });
     const time = date.toLocaleTimeString([], {
@@ -29,59 +28,125 @@ const ShowHighlights = ({ userHighlights }) => {
       minute: "2-digit",
     });
 
-    // Format the date string
-    const formattedDate = `${day} ${month} at ${time}`;
+    let formattedDate = `${day} ${month} at ${time}`;
+
     return formattedDate;
   };
 
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState(null);
-  const editBtnsRef = useRef(null);
-
-  const handleEdit = (id) => {
-    setEditId(id);
-    setIsEdit(!isEdit);
-  };
+  const [editedHighlights, setEditedHighlights] = useState({});
+  const editDeleteBoxRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        editBtnsRef.current &&
-        !editBtnsRef.current.contains(event.target)
+        editDeleteBoxRef.current &&
+        !editDeleteBoxRef.current.contains(event.target)
       ) {
+        if (
+          event.target.closest(".edit-btn") ||
+          event.target.closest(".edit-btns") ||
+          event.target.tagName === "INPUT" ||
+          event.target.tagName === "SELECT"
+        ) {
+          return;
+        }
+
         setIsEdit(false);
+        setEditId(null);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  const handleEdit = (id) => {
+    setEditId(id);
+  };
 
-  console.log(isEdit, editId);
+  const handleEditInputs = () => {
+    setIsEdit(!isEdit);
+  };
+
+  const handleInputChange = (e, id) => {
+    const { name, value } = e.target;
+    setEditedHighlights((prevState) => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleSave = (e, highlightId) => {
+    e.preventDefault();
+    const editedHighlight = editedHighlights[highlightId];
+
+    setIsEdit(false);
+
+    if (!editedHighlight) return;
+
+    fetch(`/highlights/${highlightId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedHighlight),
+    }).then((r) => {
+      if (r.ok) {
+        r.json().then((editedHighlight) => updateHighlight(editedHighlight));
+        toast.success("Highlight updated!");
+      } else {
+        r.json().then((err) => toast.error(err.errors[0]));
+      }
+    });
+  };
 
   return (
     <div className="ShowHighlights">
       {userHighlights.length > 0 ? (
         <div className="grid-wrapper">
           {userHighlights.map((highlight) => (
-            <div className="user-highlight-wrapper" key={highlight.id}>
+            <div
+              className="user-highlight-wrapper"
+              key={highlight.id}
+              ref={editDeleteBoxRef}
+            >
               <MdModeEdit
                 className="edit-btn"
                 onClick={() => handleEdit(highlight.id)}
               />
-              {highlight.id === editId && isEdit ? (
-                <div className="edit-btns" ref={editBtnsRef}>
-                  <button>Edit</button>
+              {highlight.id === editId && (
+                <div className="edit-btns">
+                  {isEdit ? (
+                    <button onClick={(e) => handleSave(e, highlight.id)}>
+                      Save
+                    </button>
+                  ) : (
+                    <button onClick={handleEditInputs}>Edit</button>
+                  )}
                   <button>Delete</button>
                 </div>
-              ) : (
-                console.log("not editing")
               )}
-              <h1>{highlight.title}</h1>
-              <p id="date">{formatDate(highlight.created_at)}</p>
+              {editId === highlight.id && isEdit ? (
+                <input
+                  type="text"
+                  name="title"
+                  value={
+                    editedHighlights[highlight.id]?.title !== undefined
+                      ? editedHighlights[highlight.id].title
+                      : highlight.title
+                  }
+                  onChange={(e) => handleInputChange(e, highlight.id)}
+                />
+              ) : (
+                <h1>{highlight.title}</h1>
+              )}
+              <p id="date"> {formatDate(highlight.created_at)}</p>
               <div className="video-player">
                 <ReactPlayer
                   url={highlight.video_url}
@@ -94,8 +159,38 @@ const ShowHighlights = ({ userHighlights }) => {
                   }}
                 />
               </div>
-              <p>{highlight.game.title}</p>
-              <p>{highlight.description}</p>
+              {editId === highlight.id && isEdit ? (
+                <select
+                  name="game_id"
+                  value={
+                    editedHighlights[highlight.id]?.game_id || highlight.game.id
+                  }
+                  onChange={(e) => handleInputChange(e, highlight.id)}
+                >
+                  {games &&
+                    games.map((game) => (
+                      <option key={game.id} value={game.id}>
+                        {game.title}
+                      </option>
+                    ))}
+                </select>
+              ) : (
+                <p>{highlight.game.title}</p>
+              )}
+              {editId === highlight.id && isEdit ? (
+                <input
+                  type="text"
+                  name="description"
+                  value={
+                    editedHighlights[highlight.id]?.description !== undefined
+                      ? editedHighlights[highlight.id].description
+                      : highlight.description
+                  }
+                  onChange={(e) => handleInputChange(e, highlight.id)}
+                />
+              ) : (
+                <p>{highlight.description}</p>
+              )}
             </div>
           ))}
         </div>

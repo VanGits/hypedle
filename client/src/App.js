@@ -16,6 +16,7 @@ function App() {
   const [highlights, setHighlights] = useState([]);
   const [userHighlights, setUserHighlights] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [games, setGames] = useState([]);
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
@@ -25,6 +26,12 @@ function App() {
       }
     });
   }, []);
+  useEffect(() => {
+    fetch("/games")
+      .then((res) => res.json())
+      .then((gamesData) => setGames(gamesData));
+  }, []);
+ 
   
 
   useEffect(() => {
@@ -52,6 +59,28 @@ function App() {
       setUserHighlights([ newHighlight, ...userHighlights]);
     }
     
+  }
+
+  const updateHighlight = (editedHighlight) => {
+    const updatedHighlights = highlights.map((highlight) => {
+      if (highlight.id === editedHighlight.id) {
+        return { ...highlight, ...editedHighlight };
+      } else {
+        return highlight;
+      }
+    });
+    setHighlights(updatedHighlights);
+  
+    if (currentUser && editedHighlight.user.id === currentUser.id) {
+      const updatedUserHighlights = userHighlights.map((highlight) => {
+        if (highlight.id === editedHighlight.id) {
+          return { ...highlight, ...editedHighlight };
+        } else {
+          return highlight;
+        }
+      });
+      setUserHighlights(updatedUserHighlights);
+    }
   }
   
   return (
@@ -81,7 +110,7 @@ function App() {
                 <>
                   <Nav user={currentUser}   />
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <ShowHighlights userHighlights = {userHighlights}/>
+                  <ShowHighlights userHighlights = {userHighlights} games = {games} updateHighlight={updateHighlight}/>
                 </>
               }
             />
@@ -91,7 +120,7 @@ function App() {
                 <>
                   <Nav user={currentUser}   />               
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <CreateHighlight addHighlight = {addHighlight}/>
+                  <CreateHighlight addHighlight = {addHighlight} games = {games}/>
                 </>
               }
             />

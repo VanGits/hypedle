@@ -85,7 +85,7 @@
     
     width: 100px;
     height: 100px;
-    background-color: #1e1e20;
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,7 +95,7 @@
     transform: translateY(-50%);
    
     border-radius: 8px;
-
+    box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.4);
   }
 
   .edit-btns button{
@@ -111,11 +111,12 @@
   }
 
   .edit-btns :first-child{
-    border-bottom: 1px solid #727272;
-    color: white;
+    border-bottom: 1px solid #c2c2c2;
+    color: #1e1e20;
+    
   }
 
   .edit-btns :nth-child(2){
-    border-top: 1px solid #727272;
+    border-top: 1px solid #c2c2c2;
     color: rgb(241, 92, 92);
   }

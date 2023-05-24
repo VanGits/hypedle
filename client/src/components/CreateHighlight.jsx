@@ -3,19 +3,16 @@ import "../styles/CreateHighlight.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-const CreateHighlight = ({ addHighlight }) => {
-  const [games, setGames] = useState([]);
+
+const CreateHighlight = ({ addHighlight, games }) => {
+  
   const [category, setCategory] = useState("")
   const [title, setTitle] = useState("")
   const [videoURL, setVideoURL] = useState("")
   const [description, setDescription] = useState("")
 
    const navigate = useNavigate()
-  useEffect(() => {
-    fetch("/games")
-      .then((res) => res.json())
-      .then((gamesData) => setGames(gamesData));
-  }, []);
+  
 
   function handleCategory(e){
     setCategory(e.target.value)
@@ -51,7 +48,7 @@ const CreateHighlight = ({ addHighlight }) => {
           setTitle("")
           setVideoURL("")
           setDescription("")
-          alert("Submitted!")
+          toast.success("Highlight created!")
           navigate("/home")
         } else {
           r.json().then((err) => toast.error(err.errors[0]));
