@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
   delete "/logout", to: "sessions#destroy"
-  resources :highlights
+  resources :highlights do
+    resources :likes, only:[:index, :create]
+    delete '/likes', to: 'likes#destroy'
+  end
   delete "/highlights", to: "highlights#destroyAll"
   delete "/games", to: "games#destroyAll"
   get "/my-highlights", to: "highlights#userIndex"

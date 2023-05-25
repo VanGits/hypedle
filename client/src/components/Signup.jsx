@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Signup.css";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Signup = ({onLogin}) => {
 
   const [name, setName] = useState("");
@@ -36,7 +37,7 @@ const Signup = ({onLogin}) => {
         navigate("/home");
         r.json().then((user) => onLogin(user));
       } else {
-        r.json().then((err) => setErrors(err.errors));
+        r.json().then((err) => toast.error(err.errors[0]));
       }
     });
   }

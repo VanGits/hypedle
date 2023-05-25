@@ -173,10 +173,25 @@
     color: #1e1e20;
     font-weight:lighter;
     
+    
     display: flex;
     align-items: center;
     justify-content: center;
+    
   }
+
+  .heart{
+    color: red;
+  }
+
+  .heart-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    
+  }
+
 
   .highlight-reactions{
     padding: 12px;

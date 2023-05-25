@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
     skip_before_action :authorize, only: :create
-
+    
     def create
         user = User.find_by(name: params[:name])
 
@@ -22,5 +22,6 @@ class SessionsController < ApplicationController
 
     private
 
+    
     
 end

@@ -1,5 +1,7 @@
 class HighlightsController < ApplicationController
     wrap_parameters format: []
+
+    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
   
     def index
       highlights = Highlight.order(created_at: :desc)
@@ -45,5 +47,9 @@ class HighlightsController < ApplicationController
   
     def find_highlight
       Highlight.find(params[:id])
+    end
+
+    def render_unprocessable_entity(invalid)
+      render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
     end
   end

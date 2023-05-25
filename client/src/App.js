@@ -51,6 +51,8 @@ function App() {
     }
   }, [currentUser]);
 
+  
+
   const addHighlight = (newHighlight) => {
     
     setHighlights([newHighlight, ...highlights]);

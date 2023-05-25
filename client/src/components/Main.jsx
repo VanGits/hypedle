@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "../styles/Main.css";
-import { HiOutlineHeart } from "react-icons/hi";
 import { FaRegComment } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 
 const Main = ({ highlights, loading, currentUser }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const [likes, setLikes] = useState([]);
 
   useEffect(() => {
     if (loading) {
@@ -46,7 +49,33 @@ const Main = ({ highlights, loading, currentUser }) => {
       playsinline: 0,
     },
   };
+  useEffect(() => {
+    if (!loading) {
+      fetchLikesData();
+    }
+  }, [loading]);
 
+  const fetchLikesData = () => {
+    highlights.forEach((highlight) => {
+      fetch(`/highlights/${highlight.id}/likes`)
+        .then((res) => res.json())
+        .then((likesData) => {
+          setLikes(likesData)
+        })
+        .catch((error) => {
+          toast.error(
+            `Error fetching likes data for highlight ${highlight.id}:`,
+            error
+          );
+        });
+    });
+  };
+
+  console.log(likes)
+  const handleLike = (highlightId) => {
+    
+  };
+ 
   const renderSkeleton = () => (
     <div className="highlight">
       <div className="highlight-post">
@@ -91,17 +120,32 @@ const Main = ({ highlights, loading, currentUser }) => {
             </div>
             <p className="category">{highlight.game.title}</p>
             <div className="highlight-reactions">
-              <HiOutlineHeart className="highlight-reaction" />
-              <p>0 likes</p>
+              {likes[highlight.id] ? (
+                <AiFillHeart
+                  className="highlight-reaction heart"
+                  onClick={() => handleLike(highlight.id)}
+                />
+              ) : (
+                <AiOutlineHeart
+                  className="highlight-reaction heart"
+                  onClick={() => handleLike(highlight.id)}
+                />
+              )}
+              {likes[highlight.id] ? (
+                <p>{likes[highlight.id]} likes</p>
+              ) : (
+                <p>0 likes</p>
+              )}
               <FaRegComment className="highlight-reaction" />
               <p>No comments found</p>
             </div>
 
-           
             {/* <p>Description: {highlight.description}</p> */}
             <form action="" className="comment-section">
-                {currentUser.image_url &&<img src={currentUser.image_url} alt="" />}
-              <input type="text" placeholder="Write your comment..."/>
+              {currentUser.image_url && (
+                <img src={currentUser.image_url} alt="" />
+              )}
+              <input type="text" placeholder="Write your comment..." />
             </form>
           </div>
         ))}
