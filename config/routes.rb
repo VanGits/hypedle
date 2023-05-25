@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   get "/me", to: "users#show"
   delete "/logout", to: "sessions#destroy"
   resources :highlights do
-    resources :likes, only:[:index, :create]
-    delete '/likes', to: 'likes#destroy'
+    resources :likes, only:[:index, :create, :destroy]
+    
   end
   delete "/highlights", to: "highlights#destroyAll"
   delete "/games", to: "games#destroyAll"

@@ -1,12 +1,7 @@
 class LikesController < ApplicationController
     wrap_parameters format: []
 
-   
 
-    def show
-        like = find_like
-        render json: like, status: :ok
-    end
 
     def index
         highlight =  Highlight.find(params[:highlight_id])

@@ -8,7 +8,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 
 const Main = ({ highlights, loading, currentUser }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
-  const [likes, setLikes] = useState([]);
+  const [likes, setLikes] = useState({});
 
   useEffect(() => {
     if (loading) {
@@ -19,6 +19,15 @@ const Main = ({ highlights, loading, currentUser }) => {
       return () => clearTimeout(timeout);
     }
   }, [loading]);
+
+  useEffect(() => {
+    // Update likes state
+    const likesMap = {};
+    currentUser.likes.forEach((like) => {
+      likesMap[like.highlight_id] = like.id;
+    });
+    setLikes(likesMap);
+  }, [currentUser.likes]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -49,33 +58,74 @@ const Main = ({ highlights, loading, currentUser }) => {
       playsinline: 0,
     },
   };
-  useEffect(() => {
-    if (!loading) {
-      fetchLikesData();
-    }
-  }, [loading]);
 
-  const fetchLikesData = () => {
-    highlights.forEach((highlight) => {
-      fetch(`/highlights/${highlight.id}/likes`)
-        .then((res) => res.json())
-        .then((likesData) => {
-          setLikes(likesData)
+  const handleLike = (e, highlightId) => {
+    e.preventDefault();
+
+    const likedHighlight = likes[highlightId];
+
+    if (likedHighlight) {
+      // Delete the like
+      fetch(`/highlights/${highlightId}/likes/${likedHighlight}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: currentUser.id,
+          highlight_id: highlightId,
+        }),
+      })
+        .then((r) => {
+          if (r.ok) {
+            if (r.status === 204) {
+              // Like deleted successfully (no response body)
+              toast.success("Unliked");
+              // Remove the like from the state
+              const updatedLikes = { ...likes };
+              delete updatedLikes[highlightId];
+              setLikes(updatedLikes);
+            } else {
+              r.json().then((likeData) => console.log(likeData));
+            }
+          } else {
+            r.json().then((err) => toast.error(err.errors[0]));
+          }
         })
-        .catch((error) => {
-          toast.error(
-            `Error fetching likes data for highlight ${highlight.id}:`,
-            error
-          );
+        .catch((err) => {
+          console.error("Error deleting like:", err);
         });
-    });
+    } else {
+      // Add the like
+      fetch(`/highlights/${highlightId}/likes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: currentUser.id,
+          highlight_id: highlightId,
+        }),
+      })
+        .then((r) => {
+          if (r.ok) {
+            r.json().then((likeData) => {
+              console.log(likeData);
+              // Update the state with the new like
+              const updatedLikes = { ...likes };
+              updatedLikes[highlightId] = likeData.id;
+              setLikes(updatedLikes);
+            });
+          } else {
+            r.json().then((err) => toast.error(err.errors[0]));
+          }
+        })
+        .catch((err) => {
+          console.error("Error adding like:", err);
+        });
+    }
   };
 
-  console.log(likes)
-  const handleLike = (highlightId) => {
-    
-  };
- 
   const renderSkeleton = () => (
     <div className="highlight">
       <div className="highlight-post">
@@ -94,61 +144,59 @@ const Main = ({ highlights, loading, currentUser }) => {
   const renderHighlights = () => (
     <>
       {Array.isArray(highlights) &&
-        highlights.map((highlight) => (
-          <div className="highlight" key={highlight.id}>
-            <div className="highlight-post">
-              {highlight.user.image_url && (
-                <img src={highlight.user.image_url} alt="" />
-              )}
-              <div className="highlight-post-details">
-                <p id="userName">{highlight.user.name.toUpperCase()}</p>
-                <p id="date">{formatDate(highlight.created_at)}</p>
-              </div>
-            </div>
-            <p>{highlight.title}</p>
-            <div className="video-player">
-              <ReactPlayer
-                url={highlight.video_url}
-                controls
-                width="100%"
-                height="100%"
-                className="react-player"
-                config={{
-                  youtube: youtubePlayerOptions,
-                }}
-              />
-            </div>
-            <p className="category">{highlight.game.title}</p>
-            <div className="highlight-reactions">
-              {likes[highlight.id] ? (
-                <AiFillHeart
-                  className="highlight-reaction heart"
-                  onClick={() => handleLike(highlight.id)}
-                />
-              ) : (
-                <AiOutlineHeart
-                  className="highlight-reaction heart"
-                  onClick={() => handleLike(highlight.id)}
-                />
-              )}
-              {likes[highlight.id] ? (
-                <p>{likes[highlight.id]} likes</p>
-              ) : (
-                <p>0 likes</p>
-              )}
-              <FaRegComment className="highlight-reaction" />
-              <p>No comments found</p>
-            </div>
+        highlights.map((highlight) => {
+          const isLiked = likes[highlight.id];
 
-            {/* <p>Description: {highlight.description}</p> */}
-            <form action="" className="comment-section">
-              {currentUser.image_url && (
-                <img src={currentUser.image_url} alt="" />
-              )}
-              <input type="text" placeholder="Write your comment..." />
-            </form>
-          </div>
-        ))}
+          return (
+            <div className="highlight" key={highlight.id}>
+              <div className="highlight-post">
+                {highlight.user.image_url && (
+                  <img src={highlight.user.image_url} alt="" />
+                )}
+                <div className="highlight-post-details">
+                  <p id="userName">{highlight.user.name.toUpperCase()}</p>
+                  <p id="date">{formatDate(highlight.created_at)}</p>
+                </div>
+              </div>
+              <p>{highlight.title}</p>
+              <div className="video-player">
+                <ReactPlayer
+                  url={highlight.video_url}
+                  controls
+                  width="100%"
+                  height="100%"
+                  className="react-player"
+                  config={{
+                    youtube: youtubePlayerOptions,
+                  }}
+                />
+              </div>
+              <p className="category">{highlight.game.title}</p>
+              <div className="highlight-reactions">
+                {isLiked ? (
+                  <AiFillHeart
+                    className="highlight-reaction heart"
+                    onClick={(e) => handleLike(e, highlight.id)}
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    className="highlight-reaction heart"
+                    onClick={(e) => handleLike(e, highlight.id)}
+                  />
+                )}
+                   <p>{highlight.likes.length + (isLiked ? 1 : 0)} likes</p>
+                <FaRegComment className="highlight-reaction" />
+                <p>No comments found</p>
+              </div>
+              <form action="" className="comment-section">
+                {currentUser.image_url && (
+                  <img src={currentUser.image_url} alt="" />
+                )}
+                <input type="text" placeholder="Write your comment..." />
+              </form>
+            </div>
+          );
+        })}
     </>
   );
 
