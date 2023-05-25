@@ -118,6 +118,19 @@ function App() {
         console.log(error);
       });
   };
+
+  const youtubePlayerOptions = {
+    playerVars: {
+      autoplay: 0,
+      controls: 1,
+      modestbranding: 1,
+      showinfo: 1,
+      rel: 1,
+      loop: 0,
+      fs: 0,
+      playsinline: 0,
+    },
+  };
   
   return (
     <div className="App">
@@ -135,7 +148,7 @@ function App() {
                 <>
                   <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <Main highlights = {highlights} loading={loading} currentUser={currentUser} />
+                  <Main highlights = {highlights} loading={loading} currentUser={currentUser} youtubePlayerOptions={youtubePlayerOptions}/>
                   
                 </>
               }
@@ -146,7 +159,7 @@ function App() {
                 <>
                   <Nav user={currentUser}   />
                   <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <ShowHighlights userHighlights = {userHighlights} games = {games} updateHighlight={updateHighlight} deleteHighlight={deleteHighlight}/>
+                  <ShowHighlights userHighlights = {userHighlights} games = {games} updateHighlight={updateHighlight} deleteHighlight={deleteHighlight} youtubePlayerOptions={youtubePlayerOptions}/>
                 </>
               }
             />

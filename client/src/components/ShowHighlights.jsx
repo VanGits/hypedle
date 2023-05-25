@@ -5,19 +5,7 @@ import sad from "../assets/sad.svg";
 import { MdModeEdit } from "react-icons/md";
 import {toast } from "react-toastify";
 
-const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighlight }) => {
-  const youtubePlayerOptions = {
-    playerVars: {
-      autoplay: 0,
-      controls: 1,
-      modestbranding: 1,
-      showinfo: 1,
-      rel: 1,
-      loop: 0,
-      fs: 0,
-      playsinline: 0,
-    },
-  };
+const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighlight, youtubePlayerOptions }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
