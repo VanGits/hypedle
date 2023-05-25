@@ -27,7 +27,7 @@ const Main = ({ highlights, loading, currentUser }) => {
       likesMap[like.highlight_id] = like.id;
     });
     setLikes(likesMap);
-  }, [currentUser.likes]);
+  }, [currentUser]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -140,12 +140,37 @@ const Main = ({ highlights, loading, currentUser }) => {
       <div className=" skeleton-load skeleton-description"></div>
     </div>
   );
-
   const renderHighlights = () => (
     <>
       {Array.isArray(highlights) &&
         highlights.map((highlight) => {
           const isLiked = likes[highlight.id];
+
+          let likes_list = highlight.likes;
+          let updatedLikeCount = null;
+          let found = false;
+          for (let i = 0; i < likes_list.length; i++) {
+            if (likes_list[i]["user_id"] === currentUser.id) {
+              found = true;
+            }
+          }
+
+          if (!found) {
+            if (isLiked) {
+                updatedLikeCount = likes_list.length + 1;
+            }
+            else {
+              updatedLikeCount = likes_list.length
+            }
+        }
+        else {
+            if (isLiked) {
+                updatedLikeCount = likes_list.length;
+            }
+            else {
+                updatedLikeCount = likes_list.length - 1;
+            }
+        }
 
           return (
             <div className="highlight" key={highlight.id}>
@@ -184,7 +209,7 @@ const Main = ({ highlights, loading, currentUser }) => {
                     onClick={(e) => handleLike(e, highlight.id)}
                   />
                 )}
-                   <p>{highlight.likes.length + (isLiked ? 1 : 0)} likes</p>
+                <p>{updatedLikeCount} likes</p>
                 <FaRegComment className="highlight-reaction" />
                 <p>No comments found</p>
               </div>
