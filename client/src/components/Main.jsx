@@ -99,6 +99,7 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
   const closeModal = () => {
     setSelectedHighlight(null);
   };
+  
 
   const renderSkeleton = () => (
     <div className="highlight">
@@ -174,14 +175,9 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
                   className="highlight-reaction"
                   onClick={() => openModal(highlight)}
                 />
-                <p>No comments found</p>
+                <p>{ highlight.comments.length}</p>
               </div>
-              <form action="" className="comment-section">
-                {currentUser.image_url && (
-                  <img src={currentUser.image_url} alt="" />
-                )}
-                <input type="text" placeholder="Write your comment..." />
-              </form>
+              
               {selectedHighlight && (
                 <Modal
                   isOpen={true}

@@ -7,10 +7,11 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
   resources :highlights do
     resources :likes, only:[:index, :create, :destroy]
-    
+    resources :comments, only: [:create, :update, :destroy]
+    get "/comments", to: "comments#commentsIndex"
   end
 
-  resources :comments, only: [:create, :update, :destroy]
+  
   delete "/highlights", to: "highlights#destroyAll"
   delete "/games", to: "games#destroyAll"
   get "/my-highlights", to: "highlights#userIndex"

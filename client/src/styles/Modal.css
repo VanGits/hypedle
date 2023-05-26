@@ -16,20 +16,34 @@
     padding: 12px;
  
     outline: none;
+    overflow: hidden;
     
-    
+ 
   }
   .modal-content{
-    max-height: 80vh;
-    overflow-y: auto;
+    
+    height: 100%;
     width: 100%;
+    padding: 24px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     flex-direction: column;
+    overflow-y: auto;
+    max-height: 75vh;
+    
+    
   }
+
+  .modal-content h1,  .modal-content h2,  .modal-content p{
+    align-self: center;
+    justify-self: center;
+  }
+ 
+ 
   
   .modal-overlay {
+ 
     outline: none;
     position: fixed;
     top: 0;
@@ -38,6 +52,7 @@
     height: 100%;
     background: rgba(128, 128, 128, 0.027);
     z-index: 9998;
+    flex-grow: 1;
   }
 
   .modal .react-player{
@@ -46,25 +61,35 @@
   }
 
   .modal img{
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
     border-radius: 50%;
   }
+
+  
 
   .profile img{
     margin-right: 24px;
   }
 
   .modal form{
-    max-width: 500px;
+    
+    height: 100px;
     width: 100%;
-    padding: 12px;
-    overflow: hidden;
+    justify-self: flex-end;
+    bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     justify-self: flex-end;
+    align-self: center;
+    margin-top: 24px;
+    position: fixed;
+    background-color: #fff;
+    box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+
   }
 
   .modal input {
@@ -74,8 +99,46 @@
     border-radius: 15px;
     border: none;
     background-color: #f3f3f3;
-    color: #000000;
+    color: #1e1e20;
    margin-left: 12px;
    outline: none;
+   margin: 24px;
+  
   }
+  .comment{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 24px;
+    width: 100%;
+    padding: 18px;
+    color: #1e1e20;
+
+  }
+  .comment-profile{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid #ececec;
+    padding: 8px;
+    width: 100%;
+  }
+
+  .comment-profile p{
+    margin-left: 8px;
+    font-weight: 600;
+    
+  }
+
+  .comment #content{
+    margin-top: 24px;
+    align-self: flex-start;
+    background-color: #ececec;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+ 
 

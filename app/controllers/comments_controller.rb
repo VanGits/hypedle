@@ -1,5 +1,11 @@
 class CommentsController < ApplicationController
 
+    def commentsIndex 
+        highlight = find_highlight
+        comments = highlight.comments
+        render json: comments, status: :ok
+    end
+
     def create
         comment = @user.comments.create!(comment_params)
         render json: comment, status: :created
@@ -26,5 +32,9 @@ class CommentsController < ApplicationController
 
     def find_comment
         Comment.find(params[:id])
+      end
+
+      def find_highlight
+        Highlight.find(params[:highlight_id])
       end
 end
