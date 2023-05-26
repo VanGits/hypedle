@@ -13,7 +13,7 @@ const Nav = ({setSidebarOpen, sidebarOpen}) => {
  
   return (
     <nav className="Nav">
-      <GiHamburgerMenu className="burger" onClick={(toggleSidebar)}/>
+      <GiHamburgerMenu className="burger" onClick={toggleSidebar}/>
       <div className="nav-content-wrapper">
         <div className="nav-content">
         

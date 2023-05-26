@@ -150,7 +150,7 @@ function App() {
               element={
                 <>
                   <Nav  setSidebarOpen={setSidebarOpen} sidebarOpen = {sidebarOpen}/>
-                  <Sidebar  setCurrentUser = {setCurrentUser} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
+                  <Sidebar  setCurrentUser = {setCurrentUser} sidebarOpen={sidebarOpen}/>
                   <Main highlights = {highlights} loading={loading}  youtubePlayerOptions={youtubePlayerOptions}/>
                   
                 </>
@@ -160,8 +160,8 @@ function App() {
               path="/my-highlights"
               element={
                 <>
-                  <Nav    />
-                  <Sidebar  setCurrentUser = {setCurrentUser}/>
+                  <Nav   sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+                  <Sidebar  sidebarOpen={sidebarOpen}  setCurrentUser = {setCurrentUser}/>
                   <ShowHighlights userHighlights = {userHighlights} games = {games} updateHighlight={updateHighlight} deleteHighlight={deleteHighlight} youtubePlayerOptions={youtubePlayerOptions}/>
                 </>
               }
@@ -170,8 +170,8 @@ function App() {
               path="/create-highlight"
               element={
                 <>
-                  <Nav    />               
-                  <Sidebar  setCurrentUser = {setCurrentUser}/>
+                  <Nav  sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}  />               
+                  <Sidebar  sidebarOpen={sidebarOpen}  setCurrentUser = {setCurrentUser}/>
                   <CreateHighlight addHighlight = {addHighlight} games = {games}/>
                 </>
               }
@@ -180,10 +180,10 @@ function App() {
               path="/game-categories"
               element={
                 <>
-                  <Nav   />
+                  <Nav  sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                   
                  
-                  <Sidebar setCurrentUser = {setCurrentUser}/>
+                  <Sidebar sidebarOpen={sidebarOpen}  setCurrentUser = {setCurrentUser}/>
                 </>
               }
             />
