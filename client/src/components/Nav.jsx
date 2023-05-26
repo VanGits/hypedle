@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../styles/Nav.css";
 import { IoIosNotifications } from "react-icons/io";
 
 
+
 const Nav = () => {
+
+ 
 
  
   return (

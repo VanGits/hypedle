@@ -4,6 +4,7 @@ import ReactPlayer from "react-player";
 import sad from "../assets/sad.svg";
 import { MdModeEdit } from "react-icons/md";
 import {toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighlight, youtubePlayerOptions }) => {
 
@@ -194,6 +195,7 @@ const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighligh
         <div className="no-highlights">
           <img src={sad} alt="No Highlights" />
           <h3>No Highlights yet!</h3>
+          <Link to="/create-highlight" >Click here to create one!</Link>
         </div>
       )}
     </div>

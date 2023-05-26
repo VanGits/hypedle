@@ -171,11 +171,11 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, commentsLen
         <h2>Title: {selectedHighlight.title}</h2>
         <p>Description: {selectedHighlight.description}</p>
         {isLoading ? (
+            <div className="no-comment">
           <h1>Loading comments...</h1>
-        ) : selectedHighlight.comments.length <= 0 ? (
-          <h1>No comments yet!</h1>
+            </div>
         ) : (
-          commentsData
+          commentsData.length > 0 ? commentsData : <div className="no-comment"><h1>No comments yet!</h1></div>
         )}
       </div>
       <form onSubmit={handleCommentSubmit}>

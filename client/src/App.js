@@ -10,6 +10,7 @@ import Main from "./components/Main";
 import Sidebar from "./components/Sidebar";
 import CreateHighlight from "./components/CreateHighlight";
 import ShowHighlights from "./components/ShowHighlights";
+import UserContext from "./context/UserContext";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -136,6 +137,7 @@ function App() {
     <div className="App">
       <ToastContainer />
       <BrowserRouter>
+      <UserContext.Provider value={currentUser}>
         <Routes>
           <Route path="/" element={<Login onLogin={setCurrentUser} />} />
           <Route path="/signup" element={<Signup onLogin={setCurrentUser} />} />
@@ -146,9 +148,9 @@ function App() {
               path="/home"
               element={
                 <>
-                  <Nav user={currentUser} setCurrentUser={setCurrentUser}  />
-                  <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
-                  <Main highlights = {highlights} loading={loading} currentUser={currentUser} youtubePlayerOptions={youtubePlayerOptions}/>
+                  <Nav  />
+                  <Sidebar  setCurrentUser = {setCurrentUser}/>
+                  <Main highlights = {highlights} loading={loading}  youtubePlayerOptions={youtubePlayerOptions}/>
                   
                 </>
               }
@@ -157,8 +159,8 @@ function App() {
               path="/my-highlights"
               element={
                 <>
-                  <Nav user={currentUser}   />
-                  <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
+                  <Nav    />
+                  <Sidebar  setCurrentUser = {setCurrentUser}/>
                   <ShowHighlights userHighlights = {userHighlights} games = {games} updateHighlight={updateHighlight} deleteHighlight={deleteHighlight} youtubePlayerOptions={youtubePlayerOptions}/>
                 </>
               }
@@ -167,8 +169,8 @@ function App() {
               path="/create-highlight"
               element={
                 <>
-                  <Nav user={currentUser}   />               
-                  <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
+                  <Nav    />               
+                  <Sidebar  setCurrentUser = {setCurrentUser}/>
                   <CreateHighlight addHighlight = {addHighlight} games = {games}/>
                 </>
               }
@@ -177,10 +179,10 @@ function App() {
               path="/game-categories"
               element={
                 <>
-                  <Nav user={currentUser}   />
+                  <Nav   />
                   
                  
-                  <Sidebar currentUser = {currentUser} setCurrentUser = {setCurrentUser}/>
+                  <Sidebar setCurrentUser = {setCurrentUser}/>
                 </>
               }
             />
@@ -189,7 +191,7 @@ function App() {
           )}
         </Routes>
       
-
+        </UserContext.Provider>
       </BrowserRouter>
     </div>
   );

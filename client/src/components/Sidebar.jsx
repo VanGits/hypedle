@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../styles/Sidebar.css";
 import { AiFillHome } from "react-icons/ai";
 import { BsCardChecklist } from "react-icons/bs";
 import { IoMdCreate } from "react-icons/io";
 import { BiCategoryAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
-const Sidebar = ({ currentUser , setCurrentUser}) => {
+const Sidebar = ({  setCurrentUser}) => {
+  const currentUser = useContext(UserContext);
   const [activeItem, setActiveItem] = useState("");
     const navigate = useNavigate()
   // Handle click event on sidebar items

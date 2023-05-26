@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "../styles/Main.css";
 import { FaRegComment } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Modal from "./Modal";
+import UserContext from "../context/UserContext";
 
-const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
+const Main = ({ highlights, loading, youtubePlayerOptions }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [likes, setLikes] = useState({});
+  const currentUser = useContext(UserContext);
 
   useEffect(() => {
     if (loading) {
@@ -176,7 +178,7 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
                   className="highlight-reaction"
                   onClick={() => openModal(highlight)}
                 />
-                <p>{ highlight.comments.length}</p>
+                <p>{ highlight.comments.length} comments</p>
               </div>
               
               {selectedHighlight && (
