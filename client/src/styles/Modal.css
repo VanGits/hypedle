@@ -16,7 +16,8 @@
     padding: 12px;
  
     outline: none;
-    
+    background: #23252b;
+    color: white;
     
  
   }
@@ -100,8 +101,8 @@
     align-self: center;
     margin-top: 24px;
     position: fixed;
-    background-color: #fff;
-    border-top: 1px solid #ececec;
+    background-color: #23252b;
+    border-top: 3px solid #E08E6D;
     padding: 24px;
 
   }

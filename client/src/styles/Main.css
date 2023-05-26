@@ -21,10 +21,10 @@
     margin-bottom: 24px;
     padding: 24px;
     box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.05);
-    color: #1e1e20;
+    color: white;
     margin-top: 82px;
     border-radius: 24px;
-    background-color: white;
+    background-color: #23252b;
     
    
 }
@@ -98,7 +98,7 @@
 
 #date{
     font-size: 14px;
-    color: #686868;
+    color: #E08E6D;
     font-weight: 400;
 }
 
@@ -115,7 +115,7 @@
     justify-content: flex-start;
     width: 100%;
     height: 100px;
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid #525663;
 }
 
 .highlight-post-details{
@@ -170,7 +170,7 @@
   .highlight-reaction{
     font-size: 26px;
     cursor: pointer;
-    color: #1e1e20;
+    color: white;
     font-weight:lighter;
     
     
@@ -181,14 +181,14 @@
   }
 
   .heart{
-    color: red;
+    color: white;
   }
 
   .heart-wrapper{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: red;
+    background-color: white;
     
   }
 
@@ -199,8 +199,7 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    border-top: 1px solid #ececec;
-    border-bottom: 1px solid #ececec;
+    
     margin: 12px;
   }
   .comment-section{
@@ -217,7 +216,7 @@
     border-radius: 15px;
     border: none;
     background-color: #f3f3f3;
-    color: #000000;
+    color: #23252b; 
    margin-left: 12px;
     
   }
@@ -235,7 +234,7 @@
   .highlight-reactions p{
     
     font-size: 14px;
-    color: #686868;
+    color: white;
     font-weight: 300;
    
   }

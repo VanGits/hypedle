@@ -12,7 +12,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    background-color: white;
+    background-color: #23252b;
     flex-direction: column;
     box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.1);
     width: 400px;
@@ -21,6 +21,7 @@
     padding: 24px;
     border-radius: 12px;
     position: relative;
+    color: white;
 
 
 }
