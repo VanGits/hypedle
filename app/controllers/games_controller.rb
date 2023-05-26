@@ -5,9 +5,9 @@ class GamesController < ApplicationController
         render json: games, status: :ok
     end
 
-    def destroyAll
+    # def destroyAll
       
-        Game.destroy_all
-        head :no_content
-      end
+    #     Game.destroy_all
+    #     head :no_content
+    #   end
 end

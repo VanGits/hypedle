@@ -36,10 +36,10 @@ class HighlightsController < ApplicationController
       head :no_content
     end
 
-    def destroyAll
-      Highlight.destroy_all
-      head :no_content
-    end
+    # def destroyAll
+    #   Highlight.destroy_all
+    #   head :no_content
+    # end
 
 
     
