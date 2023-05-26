@@ -14,7 +14,7 @@ const Nav = () => {
       <div className="nav-content-wrapper">
         <div className="nav-content">
         
-          <h1>HiLites</h1>
+          <h1>Hypedle</h1>
           
         </div>
         <IoIosNotifications id="noti"/>
