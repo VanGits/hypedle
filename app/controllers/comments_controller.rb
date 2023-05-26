@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
 
     def commentsIndex 
         highlight = find_highlight
-        comments = highlight.comments
+        comments = highlight.comments.order(created_at: :desc)
         render json: comments, status: :ok
     end
 
