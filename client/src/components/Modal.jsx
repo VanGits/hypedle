@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 import { BiMessageSquareEdit } from "react-icons/bi";
 import { AiFillDelete, AiFillSave } from "react-icons/ai";
+import noComment from "../assets/no-comment.svg"
 
 const Modal = ({
   isOpen,
@@ -191,7 +192,8 @@ const Modal = ({
     // No comments yet
     commentsData = (
       <div className="no-comment">
-        <h1>No comments yet!</h1>
+        
+        <p>No comments yet!</p>
       </div>
     );
   }
