@@ -6,29 +6,27 @@ import { toast } from "react-toastify";
 import { BiMessageSquareEdit } from "react-icons/bi";
 import { AiFillDelete, AiFillSave } from "react-icons/ai";
 
-const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) => {
+const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, commentsLength }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [editedCommentId, setEditedCommentId] = useState(null);
-  const [editedCommentContent, setEditedCommentContent] = useState("");
+  const [editedComment, setEditedComment] = useState({ id: null, content: "" });
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     fetch(`/highlights/${selectedHighlight.id}/comments`)
       .then((r) => r.json())
       .then((commentsData) => {
         setComments(commentsData);
-        setIsLoading(false); // Set loading state to false when comments are fetched
+        setIsLoading(false);
       });
   }, []);
 
-  function handleCommentEdit(e, id) {
-    setEditedCommentId(id);
+  const handleCommentEdit = (id) => {
     const comment = comments.find((comment) => comment.id === id);
-    setEditedCommentContent(comment.content);
-    
-  }
+    setEditedComment({ id, content: comment.content });
+  };
 
-  function handleCommentUpdate(e, id) {
+  const handleCommentUpdate = (e, id) => {
     e.preventDefault();
     fetch(`/highlights/${selectedHighlight.id}/comments/${id}`, {
       method: "PATCH",
@@ -36,7 +34,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        content: editedCommentContent,
+        content: editedComment.content,
       }),
     })
       .then((r) => {
@@ -47,62 +45,46 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) => {
         }
       })
       .then((updatedComment) => {
-        const updatedComments = comments.map((comment) => {
-          if (comment.id === updatedComment.id) {
-            return updatedComment;
-          } else {
-            return comment;
-          }
-        });
+        const updatedComments = comments.map((comment) =>
+          comment.id === updatedComment.id ? updatedComment : comment
+        );
         setComments(updatedComments);
-        setEditedCommentId(null);
-        setEditedCommentContent("");
+        setEditedComment({ id: null, content: "" });
         toast.success("Comment updated successfully!");
       })
       .catch((error) => {
         console.error(error);
         toast.error("Failed to update comment.");
       });
-  }
+  };
 
-  function handleCommentDelete() {
-    // Implement the delete logic here
-  }
+  const handleCommentDelete = (e, id) => {
+    e.preventDefault();
+    fetch(`/highlights/${selectedHighlight.id}/comments/${id}`, {
+      method: "DELETE",
+    })
+      .then((r) => {
+        if (r.ok) {
+          return { success: true };
+        } else {
+          throw new Error("Failed to delete comment.");
+        }
+      })
+      .then((response) => {
+        if (response.success) {
+          const updatedComments = comments.filter((comment) => comment.id !== id);
+          setComments(updatedComments);
+          setEditedComment({ id: null, content: "" });
+          toast.success("Comment deleted successfully!");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to delete comment.");
+      });
+  };
 
-  const commentsData = comments.map((comment) => (
-    <div className="comment" key={comment.id}>
-      <div className="comment-profile">
-        {comment.user.image_url && <img src={comment.user.image_url} alt="" />}
-        <p>{comment.user.name.toUpperCase()}</p>
-        {comment.user.id === currentUser.id ? (
-          <div className="comment-edit-wrapper">
-            {editedCommentId === comment.id ? (
-              <AiFillSave className="comment-btn" onClick={(e) => handleCommentUpdate(e, comment.id)}/>
-            ) : (
-              <BiMessageSquareEdit className="comment-btn" onClick={(e) => handleCommentEdit(e, comment.id)} />
-            )}
-            <AiFillDelete className="comment-btn" onClick={(e) => handleCommentDelete(e)} />
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-      {editedCommentId === comment.id ? (
-        <input
-        type="text"
-        value={editedCommentContent}
-        onChange={(e) => setEditedCommentContent(e.target.value)}
-      />
-        
-      ) : (
-        <p id="content">{comment.content}</p>
-      )}
-    </div>
-  ));
-
-  const [content, setContent] = useState("");
-
-  function handleSubmit(e) {
+  const handleCommentSubmit = (e) => {
     e.preventDefault();
     fetch(`/highlights/${selectedHighlight.id}/comments`, {
       method: "POST",
@@ -110,7 +92,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        content: content,
+        content: newComment,
         user_id: selectedHighlight.user_id,
         highlight_id: selectedHighlight.id,
       }),
@@ -123,17 +105,54 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) => {
         }
       })
       .then((newComment) => {
-        console.log(newComment);
-        setContent("");
-        // Update the comments state with the new comment
-        setComments((prevComments) => [...prevComments, newComment]);
+        setNewComment("");
+        setComments((prevComments) => [newComment, ...prevComments]);
         toast.success("Comment successfully sent!");
       })
       .catch((error) => {
         console.error(error);
         toast.error("Failed to add comment.");
       });
-  }
+  };
+
+  const commentsData = comments.map((comment) => (
+    <div className="comment" key={comment.id}>
+      <div className="comment-profile">
+        {comment.user.image_url && <img src={comment.user.image_url} alt="" />}
+        <p>{comment.user.name.toUpperCase()}</p>
+        {comment.user.id === currentUser.id && (
+          <div className="comment-edit-wrapper">
+            {editedComment.id === comment.id ? (
+              <AiFillSave
+                className="comment-btn"
+                onClick={(e) => handleCommentUpdate(e, comment.id)}
+              />
+            ) : (
+              <BiMessageSquareEdit
+                className="comment-btn"
+                onClick={() => handleCommentEdit(comment.id)}
+              />
+            )}
+            <AiFillDelete
+              className="comment-btn"
+              onClick={(e) => handleCommentDelete(e, comment.id)}
+            />
+          </div>
+        )}
+      </div>
+      {editedComment.id === comment.id ? (
+        <input
+          type="text"
+          value={editedComment.content}
+          onChange={(e) =>
+            setEditedComment({ id: comment.id, content: e.target.value })
+          }
+        />
+      ) : (
+        <p id="content">{comment.content}</p>
+      )}
+    </div>
+  ));
 
   return (
     <ReactModal
@@ -153,24 +172,19 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) => {
         <p>Description: {selectedHighlight.description}</p>
         {isLoading ? (
           <h1>Loading comments...</h1>
+        ) : selectedHighlight.comments.length <= 0 ? (
+          <h1>No comments yet!</h1>
         ) : (
-          <>
-            {selectedHighlight.comments.length <= 0 ? (
-              <h1>No comments yet!</h1>
-            ) : (
-              ""
-            )}
-            {commentsData}
-          </>
+          commentsData
         )}
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleCommentSubmit}>
         {currentUser.image_url && <img src={currentUser.image_url} alt="" />}
         <input
           type="text"
           placeholder="Write your comment..."
-          onChange={(e) => setContent(e.target.value)}
-          value={content}
+          onChange={(e) => setNewComment(e.target.value)}
+          value={newComment}
         />
       </form>
     </ReactModal>

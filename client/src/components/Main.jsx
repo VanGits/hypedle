@@ -91,6 +91,7 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
       });
   };
   const [selectedHighlight, setSelectedHighlight] = useState(null);
+  const [commentsLength, setCommentsLength] = useState(0);
   const openModal = (highlight) => {
    
     setSelectedHighlight(highlight);
@@ -183,7 +184,8 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
                   isOpen={true}
                   closeModal={closeModal}
                   selectedHighlight={selectedHighlight}
-                  
+                  commentsLength={commentsLength}
+                  setCommentsLength={setCommentsLength}
                   currentUser = {currentUser}
                 />
               )}
