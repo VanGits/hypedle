@@ -93,7 +93,7 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
       });
   };
   const [selectedHighlight, setSelectedHighlight] = useState(null);
-  const [commentsLength, setCommentsLength] = useState(0);
+  
   const openModal = (highlight) => {
    
     setSelectedHighlight(highlight);
@@ -119,6 +119,16 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
     </div>
   );
 
+  const [commentLength, setCommentLength] = useState(0)
+
+  function onPassLength(length){
+    console.log(
+      length
+    )
+    setCommentLength(length)
+  }
+  
+
   const renderHighlights = () => (
     <>
       {Array.isArray(highlights) &&
@@ -136,6 +146,8 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
             ? likes_list.length + 1
             : likes_list.length;
 
+
+           
           return (
             <div className="highlight" key={highlight.id}>
               <div className="highlight-post">
@@ -178,17 +190,20 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
                   className="highlight-reaction"
                   onClick={() => openModal(highlight)}
                 />
-                <p>{ highlight.comments.length} comments</p>
+                <p>{ commentLength > 0 ? commentLength : highlight.comments.length} comments</p>
               </div>
+
+              
+              
               
               {selectedHighlight && (
                 <Modal
                   isOpen={true}
                   closeModal={closeModal}
                   selectedHighlight={selectedHighlight}
-                  commentsLength={commentsLength}
-                  setCommentsLength={setCommentsLength}
+                  onPassLength={onPassLength}
                   currentUser = {currentUser}
+                 
                 />
               )}
             </div>

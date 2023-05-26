@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { BiMessageSquareEdit } from "react-icons/bi";
 import { AiFillDelete, AiFillSave } from "react-icons/ai";
 
-const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, commentsLength }) => {
+const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, onPassLength }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editedComment, setEditedComment] = useState({ id: null, content: "" });
@@ -48,6 +48,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, commentsLen
         const updatedComments = comments.map((comment) =>
           comment.id === updatedComment.id ? updatedComment : comment
         );
+       
         setComments(updatedComments);
         setEditedComment({ id: null, content: "" });
         toast.success("Comment updated successfully!");
@@ -74,8 +75,13 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, commentsLen
         if (response.success) {
           const updatedComments = comments.filter((comment) => comment.id !== id);
           setComments(updatedComments);
+          
+          onPassLength(comments.length - 1)
           setEditedComment({ id: null, content: "" });
           toast.success("Comment deleted successfully!");
+  
+          // Update the comments length
+         
         }
       })
       .catch((error) => {
@@ -83,7 +89,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, commentsLen
         toast.error("Failed to delete comment.");
       });
   };
-
+  
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     fetch(`/highlights/${selectedHighlight.id}/comments`, {
@@ -107,7 +113,11 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, commentsLen
       .then((newComment) => {
         setNewComment("");
         setComments((prevComments) => [newComment, ...prevComments]);
+        onPassLength(comments.length + 1)
         toast.success("Comment successfully sent!");
+  
+        // Update the comments length
+       
       })
       .catch((error) => {
         console.error(error);
