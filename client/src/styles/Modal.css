@@ -16,7 +16,7 @@
     padding: 12px;
  
     outline: none;
-    overflow: hidden;
+    
     
  
   }
@@ -87,7 +87,7 @@
     margin-top: 24px;
     position: fixed;
     background-color: #fff;
-    box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid #ececec;
     padding: 24px;
 
   }

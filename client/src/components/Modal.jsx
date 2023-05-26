@@ -16,7 +16,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) =>
     },[])
   const commentsData = comments.map((comment) => {
     return (
-      <div className="comment">
+      <div className="comment" key={comment.id}>
         <div className="comment-profile">
         {comment.user.image_url&&<img src={comment.user.image_url} alt="" />}
         <p>{comment.user.name.toUpperCase()}</p>
