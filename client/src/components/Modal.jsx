@@ -6,7 +6,13 @@ import { toast } from "react-toastify";
 import { BiMessageSquareEdit } from "react-icons/bi";
 import { AiFillDelete, AiFillSave } from "react-icons/ai";
 
-const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, onPassLength }) => {
+const Modal = ({
+  isOpen,
+  closeModal,
+  selectedHighlight,
+  currentUser,
+  onPassLength,
+}) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editedComment, setEditedComment] = useState({ id: null, content: "" });
@@ -48,7 +54,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, onPassLengt
         const updatedComments = comments.map((comment) =>
           comment.id === updatedComment.id ? updatedComment : comment
         );
-       
+
         setComments(updatedComments);
         setEditedComment({ id: null, content: "" });
         toast.success("Comment updated successfully!");
@@ -73,15 +79,16 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, onPassLengt
       })
       .then((response) => {
         if (response.success) {
-          const updatedComments = comments.filter((comment) => comment.id !== id);
+          const updatedComments = comments.filter(
+            (comment) => comment.id !== id
+          );
           setComments(updatedComments);
-          
-          onPassLength(comments.length - 1)
+
+          onPassLength(comments.length - 1);
           setEditedComment({ id: null, content: "" });
           toast.success("Comment deleted successfully!");
-  
+
           // Update the comments length
-         
         }
       })
       .catch((error) => {
@@ -89,7 +96,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, onPassLengt
         toast.error("Failed to delete comment.");
       });
   };
-  
+
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     fetch(`/highlights/${selectedHighlight.id}/comments`, {
@@ -113,11 +120,10 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, onPassLengt
       .then((newComment) => {
         setNewComment("");
         setComments((prevComments) => [newComment, ...prevComments]);
-        onPassLength(comments.length + 1)
+        onPassLength(comments.length + 1);
         toast.success("Comment successfully sent!");
-  
+
         // Update the comments length
-       
       })
       .catch((error) => {
         console.error(error);
@@ -125,44 +131,70 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, onPassLengt
       });
   };
 
-  const commentsData = comments.map((comment) => (
-    <div className="comment" key={comment.id}>
-      <div className="comment-profile">
-        {comment.user.image_url && <img src={comment.user.image_url} alt="" />}
-        <p>{comment.user.name.toUpperCase()}</p>
-        {comment.user.id === currentUser.id && (
-          <div className="comment-edit-wrapper">
-            {editedComment.id === comment.id ? (
-              <AiFillSave
-                className="comment-btn"
-                onClick={(e) => handleCommentUpdate(e, comment.id)}
-              />
-            ) : (
-              <BiMessageSquareEdit
-                className="comment-btn"
-                onClick={() => handleCommentEdit(comment.id)}
-              />
-            )}
-            <AiFillDelete
-              className="comment-btn"
-              onClick={(e) => handleCommentDelete(e, comment.id)}
-            />
+  let commentsData;
+
+  if (isLoading) {
+    // Loading state
+    commentsData = (
+      <div className="loading-comments">
+        {[...Array(3)].map((_, index) => (
+          <div className="comment-placeholder-wrapper" key={index}>
+            <div className="skeleton-load skeleton-profile-pic"></div>
+            <div className="comment-placeholder"></div>
           </div>
+        ))}
+      </div>
+    );
+  } else if (comments.length > 0) {
+    // Display comments
+    commentsData = comments.map((comment) => (
+      <div className="comment" key={comment.id}>
+        <div className="comment-profile">
+          {comment.user.image_url && (
+            <img src={comment.user.image_url} alt="" />
+          )}
+          <p>{comment.user.name.toUpperCase()}</p>
+          {comment.user.id === currentUser.id && (
+            <div className="comment-edit-wrapper">
+              {editedComment.id === comment.id ? (
+                <AiFillSave
+                  className="comment-btn"
+                  onClick={(e) => handleCommentUpdate(e, comment.id)}
+                />
+              ) : (
+                <BiMessageSquareEdit
+                  className="comment-btn"
+                  onClick={() => handleCommentEdit(comment.id)}
+                />
+              )}
+              <AiFillDelete
+                className="comment-btn"
+                onClick={(e) => handleCommentDelete(e, comment.id)}
+              />
+            </div>
+          )}
+        </div>
+        {editedComment.id === comment.id ? (
+          <input
+            type="text"
+            value={editedComment.content}
+            onChange={(e) =>
+              setEditedComment({ id: comment.id, content: e.target.value })
+            }
+          />
+        ) : (
+          <p id="content">{comment.content}</p>
         )}
       </div>
-      {editedComment.id === comment.id ? (
-        <input
-          type="text"
-          value={editedComment.content}
-          onChange={(e) =>
-            setEditedComment({ id: comment.id, content: e.target.value })
-          }
-        />
-      ) : (
-        <p id="content">{comment.content}</p>
-      )}
-    </div>
-  ));
+    ));
+  } else {
+    // No comments yet
+    commentsData = (
+      <div className="no-comment">
+        <h1>No comments yet!</h1>
+      </div>
+    );
+  }
 
   return (
     <ReactModal
@@ -180,13 +212,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser, onPassLengt
         </div>
         <h2>Title: {selectedHighlight.title}</h2>
         <p>Description: {selectedHighlight.description}</p>
-        {isLoading ? (
-            <div className="no-comment">
-          <h1>Loading comments...</h1>
-            </div>
-        ) : (
-          commentsData.length > 0 ? commentsData : <div className="no-comment"><h1>No comments yet!</h1></div>
-        )}
+        {commentsData}
       </div>
       <form onSubmit={handleCommentSubmit}>
         {currentUser.image_url && <img src={currentUser.image_url} alt="" />}
