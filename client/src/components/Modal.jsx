@@ -42,13 +42,30 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) => {
         user_id: selectedHighlight.user_id,
         highlight_id: selectedHighlight.id,
       }),
-    }).then((r) => {
-      if (r.ok) {
-        r.json().then((newComment) => console.log(newComment));
-      } else {
-        r.json().then((err) => toast.error(err.errors[0]));
-      }
-    });
+    })
+      .then((r) => {
+        if (r.ok) {
+            
+          return r.json();
+          
+        } else {
+          throw new Error("Failed to add comment.");
+        }
+      })
+      .then((newComment) => {
+        
+        console.log(newComment);
+        setContent("")
+        // Update the comments state with the new comment
+        setComments((prevComments) => [...prevComments, newComment]);
+        toast.success("Comment successfully sent!");
+       
+    
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to add comment.");
+      });
   }
 
   return (
@@ -86,6 +103,7 @@ const Modal = ({ isOpen, closeModal, selectedHighlight, currentUser }) => {
           type="text"
           placeholder="Write your comment..."
           onChange={(e) => setContent(e.target.value)}
+          value={content}
         />
       </form>
     </ReactModal>
