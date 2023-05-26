@@ -55,6 +55,16 @@
    
   }
 
+  .ShowHighlights h3{
+    color: white;
+    padding: 12px;
+  }
+
+  .ShowHighlights a{
+    color: white;
+    
+  }
+
   .ShowHighlights img{
     max-width: 400px;
     height: 100%;

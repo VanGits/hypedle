@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Modal from "./Modal";
 import UserContext from "../context/UserContext";
+import nothing from "../assets/nothing.svg"
 
 const Main = ({ highlights, loading, youtubePlayerOptions }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
@@ -214,14 +215,17 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
 
   return (
     <div className="Main">
-      {loading ? (
+       {loading ? (
         <>
           {renderSkeleton()}
           {renderSkeleton()}
           {renderSkeleton()}
         </>
-      ) : (
+      ) : highlights.length > 0 ? (
         renderHighlights()
+      ) : (
+        <div className="nothing"> <img id="nothing"src={nothing} alt="No highlights available" /> <p>No highlights available yet</p></div>
+       
       )}
     </div>
   );
