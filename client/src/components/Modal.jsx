@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 
 import { BiMessageSquareEdit } from "react-icons/bi";
 import { AiFillDelete, AiFillSave } from "react-icons/ai";
+import { RxCross1 } from "react-icons/rx";
+
 import noComment from "../assets/no-comment.svg"
 
 const Modal = ({
@@ -205,8 +207,11 @@ const Modal = ({
       overlayClassName="modal-overlay"
       onRequestClose={closeModal}
     >
+      <RxCross1 onClick={closeModal}/>
       <div className="modal-content">
+       
         <div className="profile">
+        
           {selectedHighlight.user.image_url && (
             <img src={selectedHighlight.user.image_url} alt="" />
           )}

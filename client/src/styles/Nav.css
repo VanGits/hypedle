@@ -20,6 +20,8 @@ nav {
     color: #E08E6D;
     font-size: 44px;
     cursor: pointer;
+    justify-self: flex-start ;
+    
 }
 
 .nav-content-wrapper{
@@ -36,6 +38,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 
@@ -66,4 +69,13 @@ nav {
 #noti{
     justify-self: flex-end !important;
     color: #E08E6D;
+}
+
+@media (max-width:768px){
+    .nav-content-wrapper{
+        max-width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

@@ -77,3 +77,26 @@ textarea{
 .CreateHighlight select:focus{
     outline: none;
 }
+
+@media (max-width:768px){
+
+    .CreateHighlight{
+        width: 100%;
+    }
+    .CreateHighlight form{
+        width: 300px;
+        height: 500px;
+        margin-top: 32px;
+        padding: 8px;
+    }
+    .CreateHighlight form input, .CreateHighlight form textarea, .CreateHighlight form select{
+        width: 80%;
+    }
+    .CreateHighlight form textarea{
+        height: 200px;
+    }
+    .CreateHighlight form input{
+        padding: 4px;
+    }
+    
+}

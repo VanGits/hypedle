@@ -131,3 +131,27 @@
     border-top: 1px solid #c2c2c2;
     color: rgb(241, 92, 92);
   }
+
+  @media (max-width:768px){
+
+    
+    .no-highlights img{
+      max-width: 200px;
+      height: 200px;
+    }
+    .ShowHighlights h3{
+      color: white;
+      padding: 0;
+    }
+
+    .no-highlights{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .grid-wrapper {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr); }
+  }

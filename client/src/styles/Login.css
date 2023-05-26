@@ -75,3 +75,22 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+@media (max-width:768px) {
+  .login-box{
+    max-width: 350px;
+    height: 100%;
+    
+  }
+
+  .Login h1{
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+
+  .Login form input{
+    width: 100%;
+  }
+
+  
+}

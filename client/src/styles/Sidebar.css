@@ -108,3 +108,16 @@
     font-size: 20px;
     font-weight: 600;
 }
+
+@media (max-width:768px){
+  .sidebar-open{
+    width: 90%;
+  }
+  .sidebar-element{
+    margin-top: 16px;
+  }
+  .sidebar .logout-wrapper{
+    margin-top: 0;
+    height: 100px;
+  }
+}
