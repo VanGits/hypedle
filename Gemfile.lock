@@ -76,16 +76,9 @@ GEM
     crass (1.0.6)
     diff-lcs (1.4.4)
     erubi (1.10.0)
-    faraday (0.17.6)
-      multipart-post (>= 1.2, < 3)
-    faraday_middleware (0.14.0)
-      faraday (>= 0.7.4, < 1.0)
     ffi (1.15.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    httparty (0.21.0)
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jsonapi-renderer (0.2.2)
@@ -103,8 +96,6 @@ GEM
     mini_portile2 (2.5.3)
     minitest (5.14.4)
     msgpack (1.4.2)
-    multi_xml (0.6.0)
-    multipart-post (2.3.0)
     nio4r (2.5.7)
     nokogiri (1.11.7)
       mini_portile2 (~> 2.5.0)
@@ -177,9 +168,6 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     thor (1.1.0)
-    twitch-api (0.4.0)
-      faraday (>= 0.12.2)
-      faraday_middleware (~> 0.12)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     websocket-driver (0.7.4)
@@ -196,7 +184,6 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.4)
   byebug
-  httparty
   listen (~> 3.3)
   pg (~> 1.1)
   puma (~> 5.0)
@@ -205,7 +192,6 @@ DEPENDENCIES
   rspec-rails (~> 5.0.0)
   shoulda-matchers (~> 4.0)
   spring
-  twitch-api
   tzinfo-data
 
 RUBY VERSION
