@@ -135,14 +135,14 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: #f2f2f2; 
+    background-color: #808080; 
     margin-right: 10px;
   }
   
   .skeleton-name {
     width: 150px;
     height: 20px;
-    background-color: #f2f2f2; 
+    background-color: #808080; 
     margin-bottom: 10px;
   }
   
