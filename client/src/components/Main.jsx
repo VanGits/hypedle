@@ -4,6 +4,7 @@ import "../styles/Main.css";
 import { FaRegComment } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import Modal from "./Modal";
 
 const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
@@ -30,30 +31,40 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const formattedDate = `${date.getDate()} ${date.toLocaleString("default", { month: "short" })} at ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    const formattedDate = `${date.getDate()} ${date.toLocaleString("default", {
+      month: "short",
+    })} at ${date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
     return formattedDate;
   };
 
   const handleLike = (e, highlightId) => {
     e.preventDefault();
-  
+
     const likedHighlight = likes[highlightId];
     const method = likedHighlight ? "DELETE" : "POST";
-  
-    fetch(`/highlights/${highlightId}/likes${likedHighlight ? `/${likedHighlight}` : ""}`, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: currentUser.id,
-        highlight_id: highlightId,
-      }),
-    })
+
+    fetch(
+      `/highlights/${highlightId}/likes${
+        likedHighlight ? `/${likedHighlight}` : ""
+      }`,
+      {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: currentUser.id,
+          highlight_id: highlightId,
+        }),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           const updatedLikes = { ...likes };
-  
+
           if (likedHighlight) {
             delete updatedLikes[highlightId];
           } else {
@@ -62,7 +73,7 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
               return updatedLikes;
             });
           }
-  
+
           setLikes(updatedLikes);
         } else {
           return response.json().then((errorData) => {
@@ -78,6 +89,15 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
       .catch((error) => {
         console.error("Error handling like:", error);
       });
+  };
+  const [selectedHighlight, setSelectedHighlight] = useState(null);
+  const openModal = (highlight) => {
+   
+    setSelectedHighlight(highlight);
+  };
+
+  const closeModal = () => {
+    setSelectedHighlight(null);
   };
 
   const renderSkeleton = () => (
@@ -97,52 +117,83 @@ const Main = ({ highlights, loading, currentUser, youtubePlayerOptions }) => {
 
   const renderHighlights = () => (
     <>
-      {Array.isArray(highlights) && highlights.map((highlight) => {
-        const isLiked = likes[highlight.id];
-        const likes_list = highlight.likes;
-        const found = likes_list.some((like) => like.user_id === currentUser.id);
-        const updatedLikeCount = found ? (isLiked ? likes_list.length : likes_list.length - 1) : (isLiked ? likes_list.length + 1 : likes_list.length);
+      {Array.isArray(highlights) &&
+        highlights.map((highlight) => {
+          const isLiked = likes[highlight.id];
+          const likes_list = highlight.likes;
+          const found = likes_list.some(
+            (like) => like.user_id === currentUser.id
+          );
+          const updatedLikeCount = found
+            ? isLiked
+              ? likes_list.length
+              : likes_list.length - 1
+            : isLiked
+            ? likes_list.length + 1
+            : likes_list.length;
 
-        return (
-          <div className="highlight" key={highlight.id}>
-            <div className="highlight-post">
-              {highlight.user.image_url && <img src={highlight.user.image_url} alt="" />}
-              <div className="highlight-post-details">
-                <p id="userName">{highlight.user.name.toUpperCase()}</p>
-                <p id="date">{formatDate(highlight.created_at)}</p>
+          return (
+            <div className="highlight" key={highlight.id}>
+              <div className="highlight-post">
+                {highlight.user.image_url && (
+                  <img src={highlight.user.image_url} alt="" />
+                )}
+                <div className="highlight-post-details">
+                  <p id="userName">{highlight.user.name.toUpperCase()}</p>
+                  <p id="date">{formatDate(highlight.created_at)}</p>
+                </div>
               </div>
-            </div>
-            <p>{highlight.title}</p>
-            <div className="video-player">
-              <ReactPlayer
-                url={highlight.video_url}
-                controls
-                width="100%"
-                height="100%"
-                className="react-player"
-                config={{
-                  youtube: youtubePlayerOptions,
-                }}
-              />
-            </div>
-            <p className="category">{highlight.game.title}</p>
-            <div className="highlight-reactions">
-              {isLiked ? (
-                <AiFillHeart className="highlight-reaction heart" onClick={(e) => handleLike(e, highlight.id)} />
-              ) : (
-                <AiOutlineHeart className="highlight-reaction heart" onClick={(e) => handleLike(e, highlight.id)} />
+              <p>{highlight.title}</p>
+              <div className="video-player">
+                <ReactPlayer
+                  url={highlight.video_url}
+                  controls
+                  width="100%"
+                  height="100%"
+                  className="react-player"
+                  config={{
+                    youtube: youtubePlayerOptions,
+                  }}
+                />
+              </div>
+              <p className="category">{highlight.game.title}</p>
+              <div className="highlight-reactions">
+                {isLiked ? (
+                  <AiFillHeart
+                    className="highlight-reaction heart"
+                    onClick={(e) => handleLike(e, highlight.id)}
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    className="highlight-reaction heart"
+                    onClick={(e) => handleLike(e, highlight.id)}
+                  />
+                )}
+                <p>{updatedLikeCount} likes</p>
+                <FaRegComment
+                  className="highlight-reaction"
+                  onClick={() => openModal(highlight)}
+                />
+                <p>No comments found</p>
+              </div>
+              <form action="" className="comment-section">
+                {currentUser.image_url && (
+                  <img src={currentUser.image_url} alt="" />
+                )}
+                <input type="text" placeholder="Write your comment..." />
+              </form>
+              {selectedHighlight && (
+                <Modal
+                  isOpen={true}
+                  closeModal={closeModal}
+                  selectedHighlight={selectedHighlight}
+                  
+                  currentUser = {currentUser}
+                />
               )}
-              <p>{updatedLikeCount} likes</p>
-              <FaRegComment className="highlight-reaction" />
-              <p>No comments found</p>
             </div>
-            <form action="" className="comment-section">
-              {currentUser.image_url && <img src={currentUser.image_url} alt="" />}
-              <input type="text" placeholder="Write your comment..." />
-            </form>
-          </div>
-        );
-      })}
+          );
+        })}
     </>
   );
 

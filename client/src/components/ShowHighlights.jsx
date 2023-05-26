@@ -163,7 +163,7 @@ const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighligh
                   }
                   onChange={(e) => handleInputChange(e, highlight.id)}
                 >
-                  {games &&
+                  {Array.isArray(games) &&
                     games.map((game) => (
                       <option key={game.id} value={game.id}>
                         {game.title}

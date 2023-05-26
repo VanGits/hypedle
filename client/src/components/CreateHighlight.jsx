@@ -65,7 +65,7 @@ const CreateHighlight = ({ addHighlight, games }) => {
         <input type="text" placeholder="Video URL" onChange={handleVideoURL}/>
         <select onChange={handleCategory}>
         <option value="">Pick a category</option>
-          {games &&
+          {Array.isArray(games) &&
             games.map((game) => (
               <option key={game.id} value={game.id}>
                 {game.title}

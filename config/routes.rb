@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     resources :likes, only:[:index, :create, :destroy]
     
   end
+
+  resources :comments, only: [:create, :update, :destroy]
   delete "/highlights", to: "highlights#destroyAll"
   delete "/games", to: "games#destroyAll"
   get "/my-highlights", to: "highlights#userIndex"
