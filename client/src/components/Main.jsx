@@ -122,13 +122,13 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
   const [commentLength, setCommentLength] = useState(0)
 
   function onPassLength(length){
-    console.log(
-      length
-    )
+    
     setCommentLength(length)
   }
-  
 
+  
+  
+  
   const renderHighlights = () => (
     <>
       {Array.isArray(highlights) &&
