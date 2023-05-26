@@ -1,16 +1,19 @@
 import React, { useContext } from "react";
 import "../styles/Nav.css";
 import { IoIosNotifications } from "react-icons/io";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 
-
-const Nav = () => {
+const Nav = ({setSidebarOpen, sidebarOpen}) => {
 
  
-
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
  
   return (
     <nav className="Nav">
+      <GiHamburgerMenu className="burger" onClick={(toggleSidebar)}/>
       <div className="nav-content-wrapper">
         <div className="nav-content">
         

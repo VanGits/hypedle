@@ -7,7 +7,7 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
-const Sidebar = ({  setCurrentUser}) => {
+const Sidebar = ({  setCurrentUser, sidebarOpen}) => {
   const currentUser = useContext(UserContext);
   const [activeItem, setActiveItem] = useState("");
     const navigate = useNavigate()
@@ -35,7 +35,7 @@ const Sidebar = ({  setCurrentUser}) => {
   });
   }
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${sidebarOpen ? "sidebar-open" : "sidebar-close"}`}>
       <div className="profile">
         {currentUser.image_url &&<img src={currentUser.image_url} alt="" />}
         {currentUser && <><h2>Hello, {currentUser.name.toUpperCase()}</h2></>}

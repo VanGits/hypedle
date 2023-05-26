@@ -1,4 +1,4 @@
-.sidebar {
+.sidebar-open {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,14 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
+ 
   
+  
+}
+
+.sidebar-close{
+  display: none;
+  transition: 100ms ease;
 }
 
 .sidebar h2 {

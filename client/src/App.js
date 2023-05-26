@@ -18,6 +18,7 @@ function App() {
   const [userHighlights, setUserHighlights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [games, setGames] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
@@ -148,8 +149,8 @@ function App() {
               path="/home"
               element={
                 <>
-                  <Nav  />
-                  <Sidebar  setCurrentUser = {setCurrentUser}/>
+                  <Nav  setSidebarOpen={setSidebarOpen} sidebarOpen = {sidebarOpen}/>
+                  <Sidebar  setCurrentUser = {setCurrentUser} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
                   <Main highlights = {highlights} loading={loading}  youtubePlayerOptions={youtubePlayerOptions}/>
                   
                 </>

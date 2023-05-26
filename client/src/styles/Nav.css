@@ -16,6 +16,11 @@ nav {
     font-size: 32px;
     color: #E08E6D;
 }
+.Nav .burger{
+    color: #E08E6D;
+    font-size: 44px;
+    cursor: pointer;
+}
 
 .nav-content-wrapper{
     height: 100%;
