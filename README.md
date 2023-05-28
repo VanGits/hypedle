@@ -2,9 +2,12 @@
 
 Welcome to Hypedle, the Game Highlights App! Hypedle allows users to create an account, post video game highlights, edit and delete their own highlights, like highlights from other users, and leave comments on highlights. This README file provides an overview of the app and instructions on how to use it.
 
+https://github.com/VanGits/hypedle/assets/98533984/c556de93-5954-4e77-96b3-6d0a8dc1beb2
+
 ## Technologies Used
 
 Hypedle is built using the following technologies:
+
 
 - Frontend: React, CSS
 - Backend: Rails
