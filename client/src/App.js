@@ -151,7 +151,8 @@ function App() {
                 <>
                   <Nav  setSidebarOpen={setSidebarOpen} sidebarOpen = {sidebarOpen}/>
                   <Sidebar  setCurrentUser = {setCurrentUser} sidebarOpen={sidebarOpen}/>
-                  <Main highlights = {highlights} loading={loading}  youtubePlayerOptions={youtubePlayerOptions}/>
+                  <Main highlights = {highlights} setHighlights = {setHighlights}
+                  loading={loading}  youtubePlayerOptions={youtubePlayerOptions}/>
                   
                 </>
               }

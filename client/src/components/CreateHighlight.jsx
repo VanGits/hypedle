@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../styles/CreateHighlight.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const CreateHighlight = ({ addHighlight, games }) => {
   
@@ -10,7 +11,7 @@ const CreateHighlight = ({ addHighlight, games }) => {
   const [title, setTitle] = useState("")
   const [videoURL, setVideoURL] = useState("")
   const [description, setDescription] = useState("")
-
+  const currentUser = useContext(UserContext);
    const navigate = useNavigate()
   
 
@@ -35,6 +36,7 @@ const CreateHighlight = ({ addHighlight, games }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ 
+            user_id: currentUser.id,
             title: title,
             description: description,
             video_url: videoURL,

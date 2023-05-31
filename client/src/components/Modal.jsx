@@ -7,7 +7,7 @@ import { BiMessageSquareEdit } from "react-icons/bi";
 import { AiFillDelete, AiFillSave } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 
-import noComment from "../assets/no-comment.svg"
+import noComment from "../assets/no-comment.svg";
 
 const Modal = ({
   isOpen,
@@ -70,6 +70,17 @@ const Modal = ({
 
   const handleCommentDelete = (e, id) => {
     e.preventDefault();
+
+    // Find the comment to be deleted
+    const deletedComment = comments.find((comment) => comment.id === id);
+
+    // Store the deleted comment
+    const storedDeletedComment = { ...deletedComment };
+
+    // Remove the comment from the UI
+    const updatedComments = comments.filter((comment) => comment.id !== id);
+    setComments(updatedComments);
+
     fetch(`/highlights/${selectedHighlight.id}/comments/${id}`, {
       method: "DELETE",
     })
@@ -82,21 +93,18 @@ const Modal = ({
       })
       .then((response) => {
         if (response.success) {
-          const updatedComments = comments.filter(
-            (comment) => comment.id !== id
-          );
-          setComments(updatedComments);
-
-          onPassLength(comments.length - 1);
+          onPassLength([storedDeletedComment, comments.length - 1]);
           setEditedComment({ id: null, content: "" });
           toast.success("Comment deleted successfully!");
 
-          // Update the comments length
+         
         }
       })
       .catch((error) => {
         console.error(error);
         toast.error("Failed to delete comment.");
+
+       
       });
   };
 
@@ -123,7 +131,7 @@ const Modal = ({
       .then((newComment) => {
         setNewComment("");
         setComments((prevComments) => [newComment, ...prevComments]);
-        onPassLength(comments.length + 1);
+        onPassLength([newComment, comments.length + 1]);
         toast.success("Comment successfully sent!");
 
         // Update the comments length
@@ -194,7 +202,6 @@ const Modal = ({
     // No comments yet
     commentsData = (
       <div className="no-comment">
-        
         <p>No comments yet!</p>
       </div>
     );
@@ -207,11 +214,9 @@ const Modal = ({
       overlayClassName="modal-overlay"
       onRequestClose={closeModal}
     >
-      <RxCross1 onClick={closeModal}/>
+      <RxCross1 onClick={closeModal} />
       <div className="modal-content">
-       
         <div className="profile">
-        
           {selectedHighlight.user.image_url && (
             <img src={selectedHighlight.user.image_url} alt="" />
           )}

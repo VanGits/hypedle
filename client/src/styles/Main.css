@@ -260,6 +260,14 @@
     padding: 0;
   }
 
+  .liked-by p{
+    margin: 0;
+    padding-left: 0;
+    font-weight: 600;
+  }
+
+ 
+
   @media (max-width:768px) {
 
     .Main{
@@ -279,6 +287,12 @@
       height: 150px;
       margin: 0;
       
+  }
+
+  .liked-by{
+    margin: 0;
+    padding: 0;
+    display: none;
   }
 
     

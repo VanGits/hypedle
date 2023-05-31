@@ -6,11 +6,12 @@ import { toast } from "react-toastify";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Modal from "./Modal";
 import UserContext from "../context/UserContext";
-import nothing from "../assets/nothing.svg"
+import nothing from "../assets/nothing.svg";
 
-const Main = ({ highlights, loading, youtubePlayerOptions }) => {
+const Main = ({ highlights, loading, youtubePlayerOptions, setHighlights }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [likes, setLikes] = useState({});
+
   const currentUser = useContext(UserContext);
 
   useEffect(() => {
@@ -66,27 +67,55 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
     )
       .then((response) => {
         if (response.ok) {
-          const updatedLikes = { ...likes };
-
           if (likedHighlight) {
-            delete updatedLikes[highlightId];
-          } else {
-            return response.json().then((likeData) => {
-              updatedLikes[highlightId] = likeData.id;
+            // User unliked, remove the highlightId from likes
+            setLikes((prevLikes) => {
+              const updatedLikes = { ...prevLikes };
+              delete updatedLikes[highlightId];
               return updatedLikes;
+            });
+          } else {
+            // User liked, update the likes with the new likeData
+            response.json().then((likeData) => {
+              setLikes((prevLikes) => ({
+                ...prevLikes,
+                [highlightId]: likeData.id,
+              }));
             });
           }
 
-          setLikes(updatedLikes);
+          // Update the liked_users array of the corresponding highlight
+          setHighlights((prevHighlights) =>
+            prevHighlights.map((highlight) => {
+              if (highlight.id === highlightId) {
+                const likedUsers = highlight.liked_users;
+                const likedUserNames = likedUsers.map((user) => user.name);
+
+                if (likedUserNames.includes(currentUser.name)) {
+                  // User already liked, remove the name
+                  const updatedLikedUsers = likedUsers.filter(
+                    (user) => user.name !== currentUser.name
+                  );
+
+                  return {
+                    ...highlight,
+                    liked_users: updatedLikedUsers,
+                  };
+                } else {
+                  // User didn't like, add the name
+                  return {
+                    ...highlight,
+                    liked_users: [...likedUsers, currentUser],
+                  };
+                }
+              }
+              return highlight;
+            })
+          );
         } else {
           return response.json().then((errorData) => {
             toast.error(errorData.errors[0]);
           });
-        }
-      })
-      .then((updatedLikes) => {
-        if (updatedLikes) {
-          setLikes(updatedLikes);
         }
       })
       .catch((error) => {
@@ -94,16 +123,14 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
       });
   };
   const [selectedHighlight, setSelectedHighlight] = useState(null);
-  
+
   const openModal = (highlight) => {
-   
     setSelectedHighlight(highlight);
   };
 
   const closeModal = () => {
     setSelectedHighlight(null);
   };
-  
 
   const renderSkeleton = () => (
     <div className="highlight">
@@ -120,35 +147,34 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
     </div>
   );
 
-  const [commentLength, setCommentLength] = useState(0)
+  const [commentLength, setCommentLength] = useState(0);
 
-  function onPassLength(length){
+  function onPassLength(length) {
     
-    setCommentLength(length)
+    console.log(length)
+    setCommentLength(length);
   }
 
-  
-  
-  
   const renderHighlights = () => (
     <>
       {Array.isArray(highlights) &&
         highlights.map((highlight) => {
           const isLiked = likes[highlight.id];
-          const likes_list = highlight.likes;
-          const found = likes_list.some(
+          const likesList = highlight.likes;
+          const found = likesList.some(
             (like) => like.user_id === currentUser.id
           );
           const updatedLikeCount = found
             ? isLiked
-              ? likes_list.length
-              : likes_list.length - 1
+              ? likesList.length
+              : likesList.length - 1
             : isLiked
-            ? likes_list.length + 1
-            : likes_list.length;
+            ? likesList.length + 1
+            : likesList.length;
 
+          const likedUsers = highlight.liked_users;
+          const firstTwoLikedUsers = likedUsers.slice(0, 2);
 
-           
           return (
             <div className="highlight" key={highlight.id}>
               <div className="highlight-post">
@@ -187,24 +213,31 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
                   />
                 )}
                 <p>{updatedLikeCount} likes</p>
+                <div className="liked-by">
+                  {highlight.liked_users.length > 0 && (
+                    <p>
+                      by {firstTwoLikedUsers
+                        .map((user) => user.name.toUpperCase())
+                        .join(", ")}
+                      {likedUsers.length > 2 &&
+                        ` +${likedUsers.length - 2} others`}
+                    </p>
+                  )}
+                </div>
                 <FaRegComment
                   className="highlight-reaction"
                   onClick={() => openModal(highlight)}
                 />
-                <p>{ commentLength > 0 ? commentLength : highlight.comments.length} comments</p>
+                <p>{ commentLength && commentLength[0].highlight_id === highlight.id ? commentLength[1] : highlight.comments.length} comments</p>
               </div>
 
-              
-              
-              
               {selectedHighlight && (
                 <Modal
                   isOpen={true}
                   closeModal={closeModal}
                   selectedHighlight={selectedHighlight}
                   onPassLength={onPassLength}
-                  currentUser = {currentUser}
-                 
+                  currentUser={currentUser}
                 />
               )}
             </div>
@@ -215,7 +248,7 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
 
   return (
     <div className="Main">
-       {loading ? (
+      {loading ? (
         <>
           {renderSkeleton()}
           {renderSkeleton()}
@@ -224,8 +257,11 @@ const Main = ({ highlights, loading, youtubePlayerOptions }) => {
       ) : highlights.length > 0 ? (
         renderHighlights()
       ) : (
-        <div className="nothing"> <img id="nothing"src={nothing} alt="No highlights available" /> <p>No highlights available yet</p></div>
-       
+        <div className="nothing">
+          {" "}
+          <img id="nothing" src={nothing} alt="No highlights available" />{" "}
+          <p>No highlights available yet</p>
+        </div>
       )}
     </div>
   );

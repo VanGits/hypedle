@@ -73,7 +73,7 @@ const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighligh
 
   const handleSave = (e, highlightId) => {
     e.preventDefault();
-    console.log(highlightId)
+    
     const editedHighlight = editedHighlights[highlightId];
 
     setIsEdit(false);
@@ -108,11 +108,13 @@ const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighligh
       {userHighlights.length > 0 ? (
         <div className="grid-wrapper">
           {userHighlights.map((highlight) => (
+            
             <div
               className="user-highlight-wrapper"
               key={highlight.id}
               ref={editDeleteBoxRef}
             >
+              
               <MdModeEdit
                 className="edit-btn"
                 onClick={() => handleEdit(highlight.id)}
