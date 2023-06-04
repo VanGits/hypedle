@@ -12,6 +12,8 @@ const Main = ({ highlights, loading, youtubePlayerOptions, setHighlights }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [likes, setLikes] = useState({});
 
+  
+
   const currentUser = useContext(UserContext);
 
   useEffect(() => {
@@ -48,6 +50,7 @@ const Main = ({ highlights, loading, youtubePlayerOptions, setHighlights }) => {
     e.preventDefault();
 
     const likedHighlight = likes[highlightId];
+   
     const method = likedHighlight ? "DELETE" : "POST";
 
     fetch(
@@ -151,7 +154,6 @@ const Main = ({ highlights, loading, youtubePlayerOptions, setHighlights }) => {
 
   function onPassLength(length) {
     
-    console.log(length)
     setCommentLength(length);
   }
 
@@ -174,7 +176,7 @@ const Main = ({ highlights, loading, youtubePlayerOptions, setHighlights }) => {
 
           const likedUsers = highlight.liked_users;
           const firstTwoLikedUsers = likedUsers.slice(0, 2);
-
+            
           return (
             <div className="highlight" key={highlight.id}>
               <div className="highlight-post">
@@ -216,7 +218,8 @@ const Main = ({ highlights, loading, youtubePlayerOptions, setHighlights }) => {
                 <div className="liked-by">
                   {highlight.liked_users.length > 0 && (
                     <p>
-                      by {firstTwoLikedUsers
+                      by{" "}
+                      {firstTwoLikedUsers
                         .map((user) => user.name.toUpperCase())
                         .join(", ")}
                       {likedUsers.length > 2 &&
@@ -228,7 +231,13 @@ const Main = ({ highlights, loading, youtubePlayerOptions, setHighlights }) => {
                   className="highlight-reaction"
                   onClick={() => openModal(highlight)}
                 />
-                <p>{ commentLength && commentLength[0].highlight_id === highlight.id ? commentLength[1] : highlight.comments.length} comments</p>
+                <p>
+                  {commentLength &&
+                  commentLength[0].highlight_id === highlight.id
+                    ? commentLength[1]
+                    : highlight.comments.length}{" "}
+                  comments
+                </p>
               </div>
 
               {selectedHighlight && (

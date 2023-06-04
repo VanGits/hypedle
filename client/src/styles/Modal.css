@@ -201,6 +201,10 @@
     color: white;
   }
 
+  #exit{
+    cursor: pointer;
+  }
+
   @media (max-width:768px){
     *{
       overflow-x: none;

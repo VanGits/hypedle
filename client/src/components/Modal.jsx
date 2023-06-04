@@ -30,6 +30,8 @@ const Modal = ({
       });
   }, []);
 
+ 
+
   const handleCommentEdit = (id) => {
     const comment = comments.find((comment) => comment.id === id);
     setEditedComment({ id, content: comment.content });
@@ -214,7 +216,7 @@ const Modal = ({
       overlayClassName="modal-overlay"
       onRequestClose={closeModal}
     >
-      <RxCross1 onClick={closeModal} />
+      <RxCross1 onClick={closeModal} id="exit"/>
       <div className="modal-content">
         <div className="profile">
           {selectedHighlight.user.image_url && (

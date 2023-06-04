@@ -12,18 +12,21 @@ class LikesController < ApplicationController
 
     def create
         highlight = Highlight.find(params[:highlight_id])
-    like = highlight.likes.create!(likes_params)
-    render json: like, status: :created
+        like = highlight.likes.create!(likes_params)
+        render json: like, status: :created
     end
 
-    def destroy 
-
+    def destroy
         like = find_like
-       
+        
+      
+        if @user.id == like.user_id
           like.destroy
           head :no_content
-        
-    end
+        else
+          render json: { error: "You are not authorized to unlike this" }, status: :unauthorized
+        end
+      end
 
 
     private

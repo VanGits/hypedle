@@ -55,6 +55,8 @@ function App() {
 
   
 
+  
+
   const addHighlight = (newHighlight) => {
     
     setHighlights([newHighlight, ...highlights]);

@@ -25,15 +25,28 @@ class HighlightsController < ApplicationController
   
     def update
       highlight = find_highlight
-      highlight.update(highlight_params)
-        render json: highlight, status: :ok
+      if @user.id == highlight.user_id
+        if highlight.update(highlight_params)
+          render json: highlight, status: :ok
+        else
+          render json: { error: "Failed to update highlight" }, status: :unprocessable_entity
+        end
+      else
+        render json: { error: "You are not authorized to update this highlight" }, status: :unauthorized
+      end
       
     end
 
-    def destroy 
+    def destroy
       highlight = find_highlight
-      highlight.delete
-      head :no_content
+    
+      # Check if the current user is the owner of the highlight
+      if @user.id == highlight.user_id
+        highlight.destroy
+        head :no_content
+      else
+        render json: { error: "You are not authorized to delete this highlight" }, status: :unauthorized
+      end
     end
 
     # def destroyAll
