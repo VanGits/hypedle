@@ -37,7 +37,7 @@ const Signup = ({onLogin}) => {
         navigate("/home");
         r.json().then((user) => onLogin(user));
       } else {
-        r.json().then((err) => toast.error(err.errors[0]));
+        r.json().then((err) => toast.error(err.errors && err.errors[0]));
       }
     });
   }

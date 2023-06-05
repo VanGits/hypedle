@@ -117,7 +117,7 @@ const Main = ({ highlights, loading, youtubePlayerOptions, setHighlights }) => {
           );
         } else {
           return response.json().then((errorData) => {
-            toast.error(errorData.errors[0]);
+            toast.error(errorData && errorData.errors[0]);
           });
         }
       })

@@ -91,7 +91,7 @@ const ShowHighlights = ({ userHighlights, games, updateHighlight, deleteHighligh
         r.json().then((editedHighlight) => updateHighlight(editedHighlight));
         toast.success("Highlight updated!");
       } else {
-        r.json().then((err) => toast.error(err.errors[0]));
+        r.json().then((err) => toast.error(err.errors && err.errors[0]));
       }
     });
   };

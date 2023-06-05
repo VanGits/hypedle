@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
   resources :highlights do
     resources :likes, only:[:index, :create, :destroy]
-    resources :comments, only: [:create, :update, :destroy]
-    get "/comments", to: "comments#commentsIndex"
+    resources :comments
+    # get "/comments", to: "comments#commentsIndex"
   end
 
   

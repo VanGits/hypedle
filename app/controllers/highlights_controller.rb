@@ -29,7 +29,7 @@ class HighlightsController < ApplicationController
         if highlight.update(highlight_params)
           render json: highlight, status: :ok
         else
-          render json: { error: "Failed to update highlight" }, status: :unprocessable_entity
+          render json: { errors: highlight.errors.full_messages }, status: :unprocessable_entity
         end
       else
         render json: { error: "You are not authorized to update this highlight" }, status: :unauthorized
@@ -60,7 +60,7 @@ class HighlightsController < ApplicationController
     private
   
     def highlight_params
-      params.permit(:title, :description, :video_url, :user_id, :game_id)
+      params.permit(:id, :title, :description, :video_url, :user_id, :game_id)
     end
   
     def find_highlight
