@@ -50,25 +50,25 @@ const Modal = ({
     })
       .then((r) => {
         if (r.ok) {
-          return r.json();
+          return r.json().then((updatedComment) => {
+            const updatedComments = comments.map((comment) =>
+              comment.id === updatedComment.id ? updatedComment : comment
+            );
+    
+            setComments(updatedComments);
+            setEditedComment({ id: null, content: "" });
+            toast.success("Comment updated successfully!");
+          })
         } else {
-          throw new Error("Failed to update comment.");
+          return r.json().then(data => toast.error(data.errors[0]))
+         
         }
       })
-      .then((updatedComment) => {
-        const updatedComments = comments.map((comment) =>
-          comment.id === updatedComment.id ? updatedComment : comment
-        );
-
-        setComments(updatedComments);
-        setEditedComment({ id: null, content: "" });
-        toast.success("Comment updated successfully!");
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Failed to update comment.");
-      });
+      
+      
   };
+
+
 
   const handleCommentDelete = (e, id) => {
     e.preventDefault();
@@ -90,7 +90,10 @@ const Modal = ({
         if (r.ok) {
           return { success: true };
         } else {
-          throw new Error("Failed to delete comment.");
+          r.json().then(
+            (data) => toast.error(data.errors[0])
+          )
+          
         }
       })
       .then((response) => {
@@ -104,7 +107,7 @@ const Modal = ({
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Failed to delete comment.");
+        toast.error(error);
 
        
       });
@@ -125,23 +128,23 @@ const Modal = ({
     })
       .then((r) => {
         if (r.ok) {
-          return r.json();
+          return r.json() .then((newComment) => {
+            setNewComment("");
+            setComments((prevComments) => [newComment, ...prevComments]);
+            onPassLength([newComment, comments.length + 1]);
+            toast.success("Comment successfully sent!");
+    
+            // Update the comments length
+          })
+          .catch((error) => {
+            console.error(error);
+            
+          });
         } else {
-          throw new Error("Failed to add comment.");
+          return r.json().then(data => toast.error(data.errors[0]))
         }
       })
-      .then((newComment) => {
-        setNewComment("");
-        setComments((prevComments) => [newComment, ...prevComments]);
-        onPassLength([newComment, comments.length + 1]);
-        toast.success("Comment successfully sent!");
-
-        // Update the comments length
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Failed to add comment.");
-      });
+     
   };
 
   let commentsData;

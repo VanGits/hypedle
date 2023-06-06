@@ -18,10 +18,10 @@ class CommentsController < ApplicationController
     
      
       if @user.id == comment.user_id
-        if comment.update(comment_params)
+        if comment.update!(comment_params)
           render json: comment, status: :ok
-        else
-          render json: { error: "Failed to update comment" }, status: :unprocessable_entity
+        # else
+        #   render json: { error: "Failed to update comment" }, status: :unprocessable_entity
         end
       else
         render json: { error: "You are not authorized to update this comment" }, status: :unauthorized
