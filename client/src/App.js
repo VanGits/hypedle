@@ -97,7 +97,7 @@ function App() {
         if (res.ok) {
           // Remove the deleted highlight from the highlights state
           if (highlights && highlights.length > 0) {
-            // Remove the deleted highlight from the highlights state
+            
             const updatedHighlights = highlights.filter(
               (highlight) => highlight.id !== deletedHighlight.id
             );

@@ -49,6 +49,12 @@ class HighlightsController < ApplicationController
       end
     end
 
+    def show_user_highlights
+      highlights = @user.highlights.filter{|h| h.title.downcase.include? "fun"}
+      render json: highlights
+
+    end
+
     # def destroyAll
     #   Highlight.destroy_all
     #   head :no_content

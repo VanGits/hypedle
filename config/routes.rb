@@ -11,6 +11,18 @@ Rails.application.routes.draw do
     # get "/comments", to: "comments#commentsIndex"
   end
 
+  ## new route called "/fun-highlights" that belongs to the logged in user
+  ## if i go to that route, i want to see any highlights that have "fun" in the title
+  ## render json
+
+  ## create custom route
+  ## hit highlights controller with the action of show_user_highlights
+  ## 
+
+  get "/fun-highlights", to: "highlights#show_user_highlights"
+
+
+
   
   # delete "/highlights", to: "highlights#destroyAll"
   # delete "/games", to: "games#destroyAll"
