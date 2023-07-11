@@ -143,7 +143,7 @@ function App() {
   return (
     <div className="App">
       <ToastContainer />
-      <BrowserRouter>
+      
       <UserContext.Provider value={currentUser}>
         <Routes>
           <Route path="/" element={<Login onLogin={setCurrentUser} />} />
@@ -200,7 +200,7 @@ function App() {
         </Routes>
       
         </UserContext.Provider>
-      </BrowserRouter>
+      
     </div>
   );
 }
