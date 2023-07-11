@@ -1,6 +1,6 @@
 class HighlightsController < ApplicationController
     wrap_parameters format: []
-    skip_before_action :userIndex
+    skip_before_action :authorize
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
   
     def index
