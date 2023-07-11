@@ -13,7 +13,7 @@ class ApplicationController < ActionController::API
 
   def authorize
     @user = User.find_by(id: session[:user_id])
-    head :unauthorized unless @user
+    render json: {error: "Not authorized"}, status: :unauthorized unless @user
   end
 
   def render_unprocessable_entity(invalid)

@@ -20,13 +20,17 @@ function App() {
   const [games, setGames] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   useEffect(() => {
-    fetch("/me").then((res) => {
-      if (res.ok) {
-        res.json().then((user) => setCurrentUser(user));
-      } else {
-        toast.error("Please log in");
-      }
-    });
+    fetch("/me")
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((user) => setCurrentUser(user));
+        } else {
+          toast.error("Please log in");
+        }
+      })
+      .catch((error) => {
+        console.error(error); 
+      });
   }, []);
   useEffect(() => {
     fetch("/games")
