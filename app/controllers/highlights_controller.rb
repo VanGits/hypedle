@@ -9,10 +9,10 @@ class HighlightsController < ApplicationController
     end
 
     def userIndex
-      user = User.find_by(id: session[:user_id])
-      highlights = user.highlights.order(created_at: :desc)
-      render file: Rails.root.join('client', 'public', 'index.html')
-    end
+        user = User.find_by(id: session[:user_id])
+        highlights = user.highlights.order(created_at: :desc)
+        render json: highlights, status: :ok
+      end
   
     def show
       highlight = find_highlight
