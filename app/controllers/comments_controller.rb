@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
 
   wrap_parameters format: []
-
+  
     def index 
         highlight = find_highlight
         comments = highlight.comments.order(created_at: :desc)
