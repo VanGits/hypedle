@@ -1,6 +1,6 @@
 class HighlightsController < ApplicationController
     wrap_parameters format: []
-    
+    before_action :authorize
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
   
     def index
@@ -9,7 +9,8 @@ class HighlightsController < ApplicationController
     end
 
     def userIndex
-        highlights = @user.highlights.order(created_at: :desc)
+        user = User.find_by(id: session[:user_id])
+        highlights = user.highlights.order(created_at: :desc)
         render json: highlights, status: :ok
       end
   
@@ -19,13 +20,15 @@ class HighlightsController < ApplicationController
     end
   
     def create
-       highlight = @user.highlights.create!(highlight_params)
+       user = User.find_by(id: session[:user_id])
+       highlight = user.highlights.create!(highlight_params)
        render json: highlight, status: :created
       end
   
     def update
+      user = User.find_by(id: session[:user_id])
       highlight = find_highlight
-      if @user.id == highlight.user_id
+      if user.id == highlight.user_id
         if highlight.update(highlight_params)
           render json: highlight, status: :ok
         else
@@ -39,9 +42,9 @@ class HighlightsController < ApplicationController
 
     def destroy
       highlight = find_highlight
-    
+      user = User.find_by(id: session[:user_id])
       # Check if the current user is the owner of the highlight
-      if @user.id == highlight.user_id
+      if user.id == highlight.user_id
         highlight.destroy
         head :no_content
       else
@@ -64,7 +67,10 @@ class HighlightsController < ApplicationController
     
   
     private
-  
+    def authorize
+      user = User.find_by(id: session[:user_id])
+      render json: {error: "Not authorized"}, status: :unauthorized unless user
+    end
     def highlight_params
       params.permit(:id, :title, :description, :video_url, :user_id, :game_id)
     end

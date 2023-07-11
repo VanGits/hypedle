@@ -18,9 +18,9 @@ class LikesController < ApplicationController
 
     def destroy
         like = find_like
-        
+        user = User.find_by(id: session[:user_id])
       
-        if @user.id == like.user_id
+        if user.id == like.user_id
           like.destroy
           head :no_content
         else

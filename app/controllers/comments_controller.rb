@@ -9,15 +9,16 @@ class CommentsController < ApplicationController
     end
 
     def create
-        comment = @user.comments.create!(comment_params)
+      user = User.find_by(id: session[:user_id])
+        comment = user.comments.create!(comment_params)
         render json: comment, status: :created
     end
 
     def update
       comment = find_comment
     
-     
-      if @user.id == comment.user_id
+      user = User.find_by(id: session[:user_id])
+      if user.id == comment.user_id
         if comment.update!(comment_params)
           render json: comment, status: :ok
         # else
@@ -31,8 +32,8 @@ class CommentsController < ApplicationController
     def destroy
       comment = find_comment
     
-      
-      if @user.id == comment.user_id
+      user = User.find_by(id: session[:user_id])
+      if user.id == comment.user_id
         comment.destroy
         head :no_content
       else
