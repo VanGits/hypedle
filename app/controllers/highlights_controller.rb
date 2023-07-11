@@ -1,5 +1,5 @@
 class HighlightsController < ApplicationController
-    wrap_parameters format: []
+    # wrap_parameters format: []
     before_action :authorize
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
   
