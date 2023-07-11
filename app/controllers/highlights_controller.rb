@@ -9,10 +9,13 @@ class HighlightsController < ApplicationController
     end
 
     def userIndex
-        user = User.find_by(id: session[:user_id])
-        highlights = user.highlights.order(created_at: :desc)
-        render json: highlights, status: :ok
+      user = User.find_by(id: session[:user_id])
+      highlights = user.highlights.order(created_at: :desc)
+      respond_to do |format|
+        format.html { render file: 'public/index.html' } # Replace 'public/index.html' with your actual React page template path
+        format.json { render json: highlights, status: :ok }
       end
+    end
   
     def show
       highlight = find_highlight
