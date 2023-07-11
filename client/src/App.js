@@ -164,7 +164,7 @@ function App() {
               }
             />
             <Route
-              path="/my-highlights"
+              path="/user-highlights"
               element={
                 <>
                   <Nav   sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

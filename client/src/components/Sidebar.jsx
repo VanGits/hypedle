@@ -44,7 +44,7 @@ const Sidebar = ({  setCurrentUser, sidebarOpen}) => {
         <AiFillHome />
         <h2>Home</h2>
       </div>
-      <div className={activeItem === 'item2' ? 'sidebar-element active' : 'sidebar-element'} onClick={() => handleItemClick("item2", "/my-highlights")}>
+      <div className={activeItem === 'item2' ? 'sidebar-element active' : 'sidebar-element'} onClick={() => handleItemClick("item2", "/user-highlights")}>
         <BsCardChecklist />
         <h2>My Highlights</h2>
       </div>
